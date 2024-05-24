@@ -1,3 +1,4 @@
+
 /**
 * Template Name: Lumia
 * Template URL: https://bootstrapmade.com/lumia-bootstrap-business-template/
@@ -397,16 +398,17 @@ h6 {
 
 #hero .btn-get-started {
   font-family: "Poppins", sans-serif;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 13px;
   letter-spacing: 2px;
   display: inline-block;
   padding: 12px 28px;
   border-radius: 4px;
   transition: ease-in-out 0.3s;
-  color: #fff;
-  background: #3498db;
+  color: #332b2b;
+  background: #def2ff;
   text-transform: uppercase;
+  opacity: 0.6;
 }
 
 #hero .btn-get-started:hover {
