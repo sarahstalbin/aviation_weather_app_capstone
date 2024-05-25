@@ -1,6 +1,6 @@
 FROM python:3.9-slim-bullseye
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y python3 python3-pip curl nano procps
+RUN apt-get update && apt-get install -y python3 python3-pip curl nano procps sqlite3
 RUN pip3 install --upgrade pip && pip3 install flask
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
