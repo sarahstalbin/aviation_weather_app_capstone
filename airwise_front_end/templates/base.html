@@ -51,7 +51,7 @@
             </ul>
         </li>
           
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li><a class="nav-link scrollto" href="{{ url_for('contact') }}">Contact</a></li>
           <li><a class="nav-link scrollto" href="{{ url_for('logout') }}">Logout</a></li>
           {% else %}
           <li><a class="btn-get-started scrollto" href="{{url_for('register')}}">Register</a></li>
