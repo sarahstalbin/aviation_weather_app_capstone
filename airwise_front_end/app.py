@@ -124,6 +124,10 @@ def logout():
 def contact():
     return render_template('contact.html')
 
+@app.route('/account')
+def account():
+    return render_template('account.html')
+
 # Run the application if this script is being run directly
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5000)

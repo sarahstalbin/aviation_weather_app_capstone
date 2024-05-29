@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - AirWise: Flight Weather Assessment{% endblock %}
+{% block title %}My Account - AirWise: Flight Weather Assessment{% endblock %}
 
 {% block hero %}
 <!-- override hero section -->
@@ -14,10 +14,10 @@
     <section class="breadcrumbs">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Current Weather Conditions</h2>
+                <h2>My Account</h2>
                 <ol>
                     <li><a href="home">Home</a></li>
-                    <li>Dashboard</li>
+                    <li>Account Settings</li>
                 </ol>
             </div>
         </div>
@@ -26,7 +26,10 @@
     <section class="inner-page">
         <div class="container">
             <p>
-                *** This is the logged in 'home page' ***
+                SECTION 1: user's name and their email
+                SECTION 2: location settings?
+                SECTION 3: how to change password (they type current, then set a new one)
+                Button to close the account 
             </p>
         </div>
     </section>
@@ -41,8 +44,8 @@
                 <div class="col-lg-2 col-md-6 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('home') }}">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('account') }}">My Account</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('home')}}">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                     </ul>
                 </div>
             </div>
