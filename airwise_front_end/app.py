@@ -120,6 +120,10 @@ def logout():
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 # Run the application if this script is being run directly
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5000)
