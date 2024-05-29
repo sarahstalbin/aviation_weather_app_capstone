@@ -42,7 +42,15 @@
         <ul>
           {% if current_user.is_authenticated %}
           <li><a class="btn-get-started scrollto" href="{{url_for('dashboard')}}">Dashboard</a></li>
-          <li><a class="nav-link scrollto" href="#userprefs">MyWeather</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#userprefs">MyWeather</a></li>
+           -->
+          <li class="dropdown"><a href="#"><span>MyWeather</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+            </li>
+            <li><a href="{{url_for('plot')}}">Future Data</a></li>
+            </ul>
+        </li>
+          
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
           <li><a class="nav-link scrollto" href="{{ url_for('logout') }}">Logout</a></li>
           {% else %}
