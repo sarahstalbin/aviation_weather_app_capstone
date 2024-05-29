@@ -4,8 +4,11 @@ import os
 from flask import Flask, render_template, request, session, redirect, flash, url_for, jsonify
 from forms import LoginForm, RegisterForm
 from api_sfo import get_wind_temp_data
+from plot_data import plotting
+import plotly.graph_objects as go
 from flask_login import login_user, logout_user, login_required 
 from models import db, login_manager, UserModel, load_user
+from flask import request
 
 # Create a new Flask application instance
 app = Flask(__name__)
@@ -35,6 +38,40 @@ def create_db():
 @app.route('/home')
 def home():
     return render_template('base.html')
+
+
+@app.route('/plot', methods=['GET'])
+def plot():
+    print("I am in plot")
+    if request.method == 'GET' and 'city' in request.args and request.args.get('city') is not None:
+        session['city'] = request.args.get('city')
+    if request.method == 'GET' and 'weather' in request.args and request.args.get('weather') is not None:
+        session['weather'] = request.args.get('weather')
+    if 'city' in session:
+        city_type = session.get('city')
+    else:
+        city_type = 'Seattle'
+        # return render_template('plot.html', graph_html=plotting(location=session['city'], type=session['type']))
+    if 'weather' in session:
+        weather_type = session.get('weather')
+        # weather_type = session.get('weather', None)
+        # return render_template('plot.html', graph_html=plotting(location=session['city'], type=session['type']))
+        # return render_template('plot.html', graph_html=plotting(session['city']))
+    else:
+        weather_type = '\'temp\''
+    if city_type == 'Seattle' and weather_type == 'temp':
+        return render_template('plot.html', graph_html=plotting())
+    else:
+        return render_template('plot.html', graph_html=plotting(location=city_type, type=weather_type))  
+
+@app.route('/plot', methods=['GET'])
+def plot_type():
+    print("I am in plot")
+    if request.method == 'GET' and 'type' in request.args and request.args.get('type') is not None:
+        session['type'] = request.args.get('type')
+    if 'type' in session:
+        return render_template('plot.html', graph_html=plotting(session['type']))
+    return render_template('plot.html', graph_html=plotting() )
 
 # Define a route for the root URL ("/") that returns "Hello World"
 @app.route('/dashboard', methods=['GET'])
