@@ -2,7 +2,7 @@
 # Import the necessary modules
 import os
 from flask import Flask, render_template, request, session, redirect, flash, url_for, jsonify
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm
 from api_sfo import get_wind_temp_data
 from plot_data import plotting
 import plotly.graph_objects as go
@@ -127,7 +127,32 @@ def contact():
 @app.route('/account')
 @login_required
 def account():
-    return render_template('account.html', email=current_user.email)
+    form = DeleteAccountForm()
+    return render_template('account.html', email=current_user.email, form=form)
+
+@app.route('/delete_account', methods=['GET', 'POST'])
+@login_required
+def delete_account():
+    form = DeleteAccountForm()
+    if form.validate_on_submit():
+        user  = current_user
+        db.session.delete(user)
+        db.session.commit()
+        flash('Your account has been deleted', 'success')
+        logout()
+        return redirect(url_for('home'))
+    return render_template('delete_account.html', form=form)
+
+@app.route('/update_email', methods=['GET', 'POST'])
+@login_required
+def update_email():
+    form = UpdateEmailForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your email address has been updated', 'success')
+        return redirect(url_for('account'))
+    return render_template('update_email.html', form=form)
 
 # Run the application if this script is being run directly
 if __name__ == '__main__':

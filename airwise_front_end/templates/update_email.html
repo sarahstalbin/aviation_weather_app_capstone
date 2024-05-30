@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}My Account - AirWise: Flight Weather Assessment{% endblock %}
+{% block title %}Update Email - AirWise: Flight Weather Assessment{% endblock %}
 
 {% block hero %}
 <!-- override hero section -->
@@ -14,10 +14,10 @@
     <section class="breadcrumbs">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>My Account</h2>
+                <h2>Update Your Email Address</h2>
                 <ol>
                     <li><a href="home">Home</a></li>
-                    <li>Account Settings</li>
+                    <li>Dashboard</li>
                 </ol>
             </div>
         </div>
@@ -25,17 +25,20 @@
 
     <section class="inner-page">
         <div class="container">
-            <h5>Email</h5>
-            <p>{{ email }}</p>
-	    <form method="get" action="{{ url_for('update_email') }}">
-                <button type="submit">Update Email</button>
-            </form>
-            <form method="post" action="{{ url_for('delete_account') }}">
+            <form method="post">
                 {{ form.hidden_tag() }}
-                <button type="submit" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
-                    Delete My Account
-                </button>
+                <div>
+                    {{ form.email.label }}<br>
+                    {{ form.email(size=32) }}<br>
+                    {% for error in form.email.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
             </form>
+            <a href="{{ url_for('account') }}">Back to Account Settings</a>
         </div>
     </section>
 </main>
@@ -49,8 +52,8 @@
                 <div class="col-lg-2 col-md-6 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('home')}}">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('home') }}">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('account') }}">My Account</a></li>
                     </ul>
                 </div>
             </div>
