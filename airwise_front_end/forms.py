@@ -25,3 +25,9 @@ class UpdateEmailForm(FlaskForm):
         user = UserModel.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('This email address is already in use. Please choose a different one.')
+
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField('Old Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=6, max=40)])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('Change Password')

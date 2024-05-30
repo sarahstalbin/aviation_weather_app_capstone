@@ -2,7 +2,7 @@
 # Import the necessary modules
 import os
 from flask import Flask, render_template, request, session, redirect, flash, url_for, jsonify
-from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm
+from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm, ChangePasswordForm
 from api_sfo import get_wind_temp_data
 from plot_data import plotting
 import plotly.graph_objects as go
@@ -153,6 +153,20 @@ def update_email():
         flash('Your email address has been updated', 'success')
         return redirect(url_for('account'))
     return render_template('update_email.html', form=form)
+
+@app.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if not current_user.check_password(form.old_password.data):
+            flash('Old password is incorrect.', 'danger')
+        else:
+            current_user.set_password(form.new_password.data)
+            db.session.commit()
+            flash('Your password has been updated.', 'success')
+            return redirect(url_for('account'))
+    return render_template('change_password.html', form=form)
 
 # Run the application if this script is being run directly
 if __name__ == '__main__':

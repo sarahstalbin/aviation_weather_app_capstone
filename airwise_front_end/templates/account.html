@@ -30,9 +30,12 @@
 	    <form method="get" action="{{ url_for('update_email') }}">
                 <button type="submit">Update Email</button>
             </form>
+            <form method="get" action="{{ url_for('change_password') }}">
+                <button type="submit">Change Password</button>
+            </form>
             <form method="post" action="{{ url_for('delete_account') }}">
                 {{ form.hidden_tag() }}
-                <button type="submit" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                <button class="btn-get-started scrollto" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
                     Delete My Account
                 </button>
             </form>
