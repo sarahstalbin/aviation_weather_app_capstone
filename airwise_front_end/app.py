@@ -6,7 +6,7 @@ from forms import LoginForm, RegisterForm
 from api_sfo import get_wind_temp_data
 from plot_data import plotting
 import plotly.graph_objects as go
-from flask_login import login_user, logout_user, login_required 
+from flask_login import login_user, logout_user, login_required, current_user
 from models import db, login_manager, UserModel, load_user
 from flask import request
 
@@ -125,8 +125,9 @@ def contact():
     return render_template('contact.html')
 
 @app.route('/account')
+@login_required
 def account():
-    return render_template('account.html')
+    return render_template('account.html', email=current_user.email)
 
 # Run the application if this script is being run directly
 if __name__ == '__main__':
