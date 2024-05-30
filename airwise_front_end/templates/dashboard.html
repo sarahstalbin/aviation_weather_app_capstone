@@ -13,7 +13,7 @@
   <link href="static/img/aviation_favicon.jpg" rel="icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,11 +40,10 @@
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="nav-link scrollto " href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="home">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">My Account</a></li>
           <li class="dropdown"><a href="#"><span>Weather</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              </li>
               <li><a href="#">Wind</a></li>
               <li><a href="#">Thunderstorms</a></li>
               <li><a href="#">Icing</a></li>
@@ -77,10 +76,59 @@
 
     <section class="inner-page">
       <div class="container">
-        <p>
-	{% block content %}{% endblock %}
-          *** This is the logged in 'home page' ***
-        </p>
+        <form method="get" action="{{ url_for('dashboard') }}">
+          <div class="form-group">
+            <label for="region">Select Region:</label>
+            <select id="region" name="region" class="form-control">
+              <option value="sfo" {% if region == 'sfo' %}selected{% endif %}>SFO(Pacific Coast)</option>
+              <option value="other_pac" {% if region == 'other_pac' %}selected{% endif %}>Other PAC(Western Pacific)</option>
+              <option value="all" {% if region == 'all' %}selected{% endif %}>All Regions</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="forecast">Select Forecast:</label>
+            <select id="forecast" name="forecast" class="form-control">
+              <option value="06" {% if forecast == '06' %}selected{% endif %}>06</option>
+              <option value="12" {% if forecast == '12' %}selected{% endif %}>12</option>
+              <option value="24" {% if forecast == '24' %}selected{% endif %}>24</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="level">Select Level:</label>
+            <select id="level" name="level" class="form-control">
+              <option value="low" {% if level == 'low' %}selected{% endif %}>Low</option>
+              <option value="high" {% if level == 'high' %}selected{% endif %}>High</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Get Data</button>
+        </form>
+        <hr>
+
+        <div id="wind-temp-data">
+          <h2>Wind and Temperature Data</h2>
+          {% if wind_temp_data %}
+            <ul>
+              {% for item in wind_temp_data %}
+                <li>Latitude: {{ item.latitude }}, Longitude: {{ item.longitude }}, Wind Speed: {{ item.wind_speed }} kt, Wind Direction: {{ item.wind_direction }} degrees, Temperature: {{ item.temperature }} C</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No data available.</p>
+          {% endif %}
+        </div>
+
+        <div id="obstacle-data">
+          <h2>Obstacle Data</h2>
+          {% if obstacle_data %}
+            <ul>
+              {% for item in obstacle_data %}
+                <li>Latitude: {{ item.latitude }}, Longitude: {{ item.longitude }}, Elevation: {{ item.elevation }} ft, Height: {{ item.height }} ft, Type: {{ item.type }}, Name: {{ item.name }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No data available.</p>
+          {% endif %}
+        </div>
       </div>
     </section>
 

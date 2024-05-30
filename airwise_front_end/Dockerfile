@@ -8,6 +8,8 @@ COPY templates /usr/local/bin/templates
 COPY app.py /usr/local/bin/app.py
 COPY assets /usr/local/bin/static
 COPY api_sfo.py /usr/local/bin/api_sfo.py
+COPY api_other_pac.py /usr/local/bin/api_other_pac.py
+COPY api_obs.py /usr/local/bin/api_obs.py
 COPY models.py /usr/local/bin/models.py
 COPY forms.py /usr/local/bin/forms.py
 EXPOSE 5000
