@@ -94,9 +94,13 @@ def register():
         db.session.commit()
         flash('Registration successful, please log in.', 'success')
         user_exists = True
-        return redirect(url_for('login'))
+        session.clear()
+        return redirect(url_for('registration_confirmed'))
     return render_template('register.html', form=form, user_exists=user_exists)
 
+@app.route('/registration_confirmed')
+def registration_confirmed():
+    return render_template('registration_confirmed.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
