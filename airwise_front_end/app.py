@@ -150,7 +150,7 @@ def update_email():
         db.session.commit()
         flash('Your email address has been updated', 'success')
         return redirect(url_for('account'))
-    return render_template('update_email.html', form=form)
+    return render_template('update_email.html', email=current_user.email, form=form)
 
 @app.route('/change_password', methods=['GET', 'POST'])
 @login_required
