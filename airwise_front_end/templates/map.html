@@ -1,6 +1,5 @@
 {% extends 'dashboard.html' %}
 
-
 {% block content %}
 <!DOCTYPE html>
 <main id="main">
@@ -9,99 +8,123 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Map of Precipitation</h2>
-            <div>
+            </div>
         </div>
-     </section><!-- End Breadcrumbs -->          
-<html>
-  <head>
-    <title>Simple Map</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <!-- jsFiddle will insert css and js -->
-  </head>
-  <body>
-    <div id="map"></div>
+    </section><!-- End Breadcrumbs -->
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3KbYljeA9eHFq9hm_0-qKDPvNeqtiYyE&callback=initMap&libraries=&v=weekly"
-    ></script>
-  </body>
-</html>
-
-<script>
-
-    // get your key from app.tomorrow.io/development/keys
-    const API_KEY = '0ZQsTAdc0eMA81LFBmafbeWDbFHhF4ud'; 
-
-    // pick the field (like temperature, precipitationIntensity or cloudCover)
-    const DATA_FIELD = 'precipitationIntensity';
-
-    // set the ISO timestamp (now for all fields, up to 6 hour out for precipitationIntensity)
-    const TIMESTAMP = (new Date()).toISOString(); 
-
-    // initialize the map
-    function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 7,
-        center: {
-        lat:  47.60511016845703,
-        lng: -122.33394622802734
-        }
-    });
-
-    // inject the tile layer
-    var imageMapType = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) {
-        if (zoom > 12) {
-            return null;
-        }
-
-        return `https://api.tomorrow.io/v4/map/tile/${zoom}/${coord.x}/${coord.y}/${DATA_FIELD}/${TIMESTAMP}.png?apikey=${API_KEY}`;
-        },
-        tileSize: new google.maps.Size(256, 256)
-    });
-
-    map.overlayMapTypes.push(imageMapType);
-    }
-
-        // Load the Google Maps API     
-        function loadScript() {
-            const YOUR_API_KEY = 'AIzaSyC3KbYljeA9eHFq9hm_0-qKDPvNeqtiYyE';
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${YOUR_API_KEY}&callback=initMap`;
-            script.defer = true;
-            script.async = true;
-            document.head.appendChild(script);
-        }
-
-        window.onload = loadScript;
-
-    // CSS styles as a string
-    const styles = `
+    <html>
+        <head>
+            <title>Interactive Timelapse Map</title>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+            <style>
                 #map {
                     height: 600px;
-                    witdth: 600px
+                    width: 100%;
                 }
-
                 html, body {
                     height: 100%;
                     margin: 0;
                     padding: 0;
                 }
-            `;
+                .controls {
+                    margin: 10px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="controls">
+                <button onclick="updateDataField('temperature')">Temperature</button>
+                <button onclick="updateDataField('precipitationIntensity')">Precipitation Intensity</button>
+                <button onclick="updateDataField('windDirection')">Wind Direction</button>
+                <button onclick="updateDataField('visibility')">Visibility</button>
+                <button onclick="startTimelapse()">Start Timelapse</button>
+                <button onclick="stopTimelapse()">Stop Timelapse</button>
+            </div>
+            <div id="map"></div>
 
-    // Function to inject CSS into the document head
-    function injectCSS(css) {
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.appendChild(document.createTextNode(css));
-    document.head.appendChild(style);
-    }
+            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+            <script async
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3KbYljeA9eHFq9hm_0-qKDPvNeqtiYyE&callback=initMap&libraries=&v=weekly">
+            </script>
 
-    // Inject the CSS styles
-    injectCSS(styles);
+            <script>
+                let map;
+                let imageMapType;
+                let API_KEY = '0ZQsTAdc0eMA81LFBmafbeWDbFHhF4ud';
+                let DATA_FIELD = 'precipitationIntensity';
+                let TIMESTAMP = (new Date()).toISOString();
+                let timelapseInterval;
+                const TIMELAPSE_INTERVAL_MS = 1000; // Update every second
+                const TIME_STEP_MS = 3600 * 1000; // 1 hour per step
 
-    </script>
-</body>
-</html>
+                function getTileUrl(coord, zoom) {
+                    if (zoom > 12) {
+                        return null;
+                    }
+
+                    return `https://api.tomorrow.io/v4/map/tile/${zoom}/${coord.x}/${coord.y}/${DATA_FIELD}/${TIMESTAMP}.png?apikey=${API_KEY}`;
+                }
+
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 7,
+                        center: { lat: 47.6051, lng: -122.3339 }
+                    });
+
+                    imageMapType = new google.maps.ImageMapType({
+                        getTileUrl: function (coord, zoom) {
+                            return getTileUrl(coord, zoom);
+                        },
+                        tileSize: new google.maps.Size(256, 256),
+                        name: 'CustomTiles'
+                    });
+
+                    map.overlayMapTypes.push(imageMapType);
+                }
+
+                function updateDataField(newField) {
+                    DATA_FIELD = newField;
+                    refreshMapTiles();
+                }
+
+                function refreshMapTiles() {
+                    map.overlayMapTypes.removeAt(0); // Remove the existing overlay
+                    imageMapType = new google.maps.ImageMapType({
+                        getTileUrl: function (coord, zoom) {
+                            return getTileUrl(coord, zoom);
+                        },
+                        tileSize: new google.maps.Size(256, 256),
+                        name: 'CustomTiles'
+                    });
+                    map.overlayMapTypes.push(imageMapType); // Add the new overlay
+                }
+
+                function startTimelapse() {
+                    stopTimelapse(); // Ensure any existing timelapse is stopped
+                    timelapseInterval = setInterval(() => {
+                        TIMESTAMP = new Date(Date.parse(TIMESTAMP) + TIME_STEP_MS).toISOString();
+                        refreshMapTiles();
+                    }, TIMELAPSE_INTERVAL_MS);
+                }
+
+                function stopTimelapse() {
+                    if (timelapseInterval) {
+                        clearInterval(timelapseInterval);
+                        timelapseInterval = null;
+                    }
+                }
+
+                function loadScript() {
+                    const YOUR_API_KEY = 'AIzaSyC3KbYljeA9eHFq9hm_0-qKDPvNeqtiYyE';
+                    const script = document.createElement('script');
+                    script.src = `https://maps.googleapis.com/maps/api/js?key=${YOUR_API_KEY}&callback=initMap`;
+                    script.defer = true;
+                    script.async = true;
+                    document.head.appendChild(script);
+                }
+
+                window.onload = loadScript;
+            </script>
+        </body>
+    </html>
 {% endblock %}
