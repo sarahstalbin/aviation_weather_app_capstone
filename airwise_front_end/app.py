@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, session, redirect, flash, url_for, jsonify
 from flask_login import login_user, logout_user, login_required
 from models import db, login_manager, UserModel, load_user
-from api_sfo import get_sfo
-from api_other_pac import get_wind_temp_data
-from api_obs import get_obstacle_data
+from api_sfo import get_sfo, get_hawaii, get_all, get_alaska, get_other_pac, get_south_central, get_north_central, get_rocky_mountain, get_south_east, get_north_east
+from api_metars import get_metar
 from forms import LoginForm, RegisterForm
 app = Flask(__name__)
 app.secret_key = 'super secret key'
@@ -30,46 +29,6 @@ def create_db():
 @app.route('/home')
 def home():
     return render_template('base.html')
-#@app.route('/dashboard', methods=['GET'])
-#@login_required
-#def dashboard():
- #   region = request.args.get('region', 'sfo')
-  #  fcst = request.args.get('fcst', '06')
-   # level = request.args.get('level', 'low')
-    
-   # app.logger.info(f'Region: {region}, Forecast: {fcst}, Level: {level}')
-
-   # wind_temp_data = None
-   # if region in ('sfo', 'other_pac', 'all'):  # Check for valid regions
-    #    if region == 'sfo':
-     #       if fcst == '06':
-      #          wind_temp_data = get_sfo_low_06(region=region, level=level, fcst=fcst)
-       #     elif fcst == '12':
-        #        wind_temp_data = get_sfo_low_12(region=region, level=level, fcst=fcst)
-         #   elif fcst == '24':
-          #      wind_temp_data = get_sfo_low_24(region=region, level=level, fcst=fcst)
-        #elif region == 'other_pac':
-         #   wind_temp_data = get_wind_temp_data(region=region, level=level, fcst=fcst)
-       # else:  # Handle 'all' region (assuming combining data)
-            # Implement logic to combine data from both regions (if applicable)
-        #    pass  # Replace with code to combine data from SFO and other_pac
-
-   # else:
-        # No data for invalid regions
-    #    wind_temp_data = []  # Set to empty list for clarity
-
-   # obstacle_data = get_obstacle_data(bbox="40,-90,45,-85")
-
-    # Populate the context dictionary
-   # context = {
-    #    'wind_temp_data': wind_temp_data,
-     #   'obstacle_data': obstacle_data,
-      #  'region': region,
-       # 'fcst': fcst,
-       # 'level': level
-   # }
-
-   # return render_template('dashboard.html', **context)
 
 @app.route('/dashboard', methods=['GET'])
 @login_required
@@ -77,21 +36,37 @@ def dashboard():
     region = request.args.get('region', 'sfo')
     fcst = request.args.get('fcst', '06')
     level = request.args.get('level', 'low')
-    print(region,fcst,level)
+    get_metar_flag = request.args.get('get_metar', None)
+#    print(region,fcst,level)
     app.logger.info(f'Region: {region}, Forecast: {fcst}, Level: {level}')
 
     if region == 'sfo':
         wind_temp_data = get_sfo(region=region, level=level, fcst=fcst)
     elif region == 'other_pac':
-        wind_temp_data = get_wind_temp_data(region=region, level=level, fcst=fcst)
+        wind_temp_data = get_other_pac(region=region, level=level, fcst=fcst)
+    elif region == 'hawaii':
+        wind_temp_data = get_hawaii(region=region, level=level, fcst=fcst)
+    elif region == 'all':
+        wind_temp_data = get_all(region=region, level=level, fcst=fcst)
+    elif region == 'alaska':
+        wind_temp_data = get_alaska(region=region, level=level, fcst=fcst)
+    elif region == 'bos':
+        wind_temp_data = get_north_east(region=region, level=level, fcst=fcst)
+    elif region == 'mia':
+        wind_temp_data = get_south_east(region=region, level=level, fcst=fcst)
+    elif region == 'chi':
+        wind_temp_data = get_north_central(region=region, level=level, fcst=fcst)
+    elif region == 'dfw':
+        wind_temp_data = get_south_central(region=region, level=level, fcst=fcst)
+    elif region == 'slc':
+        wind_temp_data = get_rocky_mountain(region=region, level=level, fcst=fcst)
+
     else:
         pass
-        # Assuming you want to combine data from both regions if 'all' is selected
-    #    wind_temp_data = get_sfo_data(region='sfo', level=level, fcst=fcst) + get_other_pac_data(region='other_pac', level=level, fcst=fcst)
 
-    obstacle_data = get_obstacle_data(bbox="40,-90,45,-85")
+    metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z") if get_metar_flag else None
     
-    return render_template('dashboard.html', wind_temp_data=wind_temp_data, obstacle_data=obstacle_data, region=region, fcst=fcst, level=level)
+    return render_template('dashboard.html', wind_temp_data=wind_temp_data, metar_data = metar_data,  region=region, fcst=fcst, level=level)
 
 @app.route('/get_wind_temp', methods=['GET'])
 @login_required
@@ -105,20 +80,56 @@ def get_wind_temp():
     if region == 'sfo':
         data = get_sfo(region=region, level=level, fcst=fcst)
     elif region == 'other_pac':
-        data = get_wind_temp_data(region=region, level=level, fcst=fcst)
+        data = get_other_pac(region=region, level=level, fcst=fcst)
+    elif region == 'hawaii':
+        data = get_hawaii(region=region, level=level, fcst=fcst)
+    elif region == 'all':
+        data = get_all(region=region, level=level, fcst=fcst)
+    elif region == 'alaska':
+        data = get_alaska(region=region, level=level, fcst=fcst)
+    elif region == 'bos':
+        data = get_north_east(region=region, level=level, fcst=fcst)
+    elif region == 'mia':
+        data = get_south_east(region=region, level=level, fcst=fcst)
+    elif region == 'chi':
+        data = get_north_central(region=region, level=level, fcst=fcst)
+    elif region == 'dfw':
+        data = get_south_central(region=region, level=level, fcst=fcst)
+    elif region == 'slc':
+        data = get_rocky_mountain(region=region, level=level, fcst=fcst)
+
+
     else:
         pass
-        # Assuming you want to combine data from both regions if 'all' is selected
- #       data = get_sfo_data(region='sfo', level=level, fcst=fcst) + get_other_pac_data(region='other_pac', level=level, fcst=fcstt)
     
     return jsonify(data)
 
-@app.route('/get_obstacle', methods=['GET'])
-@login_required
-def get_obstacle():
-    bbox = request.args.get('bbox', '40,-90,45,-85')
-    data = get_obstacle_data(bbox=bbox)
-    return jsonify(data)
+@app.route('/get_metars', methods=['GET'])
+@login_required  
+#@app.route('/get_metars', methods=['GET'])
+def get_metars():
+  """
+  API endpoint to retrieve METAR data.
+
+  Returns:
+      JSON: Dictionary containing METAR data or an error message.
+  """
+  # Get parameters from the request (modify as needed)
+  ids = request.args.get('ids', "@WA")  # Default to WA stations
+  format = request.args.get('format', 'json')
+  taf = request.args.get('taf', '1')
+  hours = request.args.get('hours', '10')
+  bbox = request.args.get('bbox')  # Optional bounding box
+  date = request.args.get('date')  # Optional date
+
+  # Call your get_metar function with retrieved parameters
+  metar_data = get_metar(ids=ids, format=format, taf=taf, hours=hours, bbox=bbox, date=date)
+
+  if metar_data:
+    return jsonify(metar_data)
+  else:
+    return jsonify({"error": "Failed to retrieve METAR data"}), 400  # Return error with status code 400 (Bad Request)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
