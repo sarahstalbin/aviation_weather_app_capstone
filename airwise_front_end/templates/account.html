@@ -7,8 +7,12 @@
 <section id="hero-account" class="d-flex flex-column justify-content-center align-items-center">
   <div class="container text-center text-md-left" data-aos="fade-up">
     <h1>Account <span>Settings</span></h1>
-    <h2></h2>
-    <a href="{{url_for('login')}}" class="btn-get-started scrollto">Login</a>
+    <form method="get" action="{{ url_for('update_email') }}">
+      <a href="{{ url_for('update_email') }}" class="btn-get-started scrollto">Update Email</a>
+    </form>
+    <form method="get" action="{{ url_for('change_password') }}">
+      <a href="{{ url_for('change_password') }}" class="btn-get-started scrollto">Change Password</a>
+    </form>
 </section>
 
 {% endblock hero %}
@@ -33,17 +37,13 @@
         <div class="container">
             <h5>Registered Email:</h5>
             <p>{{ email }}</p>
-	    <form method="get" action="{{ url_for('update_email') }}">
-                <a href="{{ url_for('update_email') }}" class="btn-get-started scrollto">Update Email</a>
-            </form>
-            <form method="get" action="{{ url_for('change_password') }}">
-                <a href="{{ url_for('change_password') }}">Change Password</a>
-            </form>
+            <h5>Member Since</h5>
+            <p>Date TBD</p>
             <form method="post" action="{{ url_for('delete_account') }}">
                 {{ form.hidden_tag() }}
-                <button class="btn-get-started scrollto" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                <a class="btn-get-started scrollto" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
                     Delete My Account
-                </button>
+                </an>
             </form>
         </div>
     </section>

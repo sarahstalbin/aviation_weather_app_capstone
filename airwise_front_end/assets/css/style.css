@@ -421,6 +421,22 @@ h6 {
   opacity: 0.6;
 }
 
+#hero-account .btn-get-started {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 4px;
+  transition: ease-in-out 0.3s;
+  color: #332b2b;
+  background: #def2ff;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
 #hero .btn-get-started:hover {
   background: #4ea5e0;
 }
