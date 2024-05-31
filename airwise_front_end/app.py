@@ -2,11 +2,13 @@
 # Import the necessary modules
 import os
 from flask import Flask, render_template, request, session, redirect, flash, url_for, jsonify
-from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm, ChangePasswordForm
+from datetime import datetime
+from forms import LoginForm, RegisterForm
 from api_sfo import get_wind_temp_data
+from map import inject_tile_layer
 from plot_data import plotting
 import plotly.graph_objects as go
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required 
 from models import db, login_manager, UserModel, load_user
 from flask import request
 
@@ -40,38 +42,37 @@ def home():
     return render_template('base.html')
 
 
+@app.route('/map')
+def index():
+    return render_template('map.html')
+  
+
 @app.route('/plot', methods=['GET'])
 def plot():
-    print("I am in plot")
+    # print("I am in plot")
+
+    if request.method == 'GET' and 'data_state' in request.args and request.args.get('data_state') is not None:
+        session['data_state'] = request.args.get('data_state')
+        print("data_state", session['data_state'])
     if request.method == 'GET' and 'city' in request.args and request.args.get('city') is not None:
         session['city'] = request.args.get('city')
     if request.method == 'GET' and 'weather' in request.args and request.args.get('weather') is not None:
         session['weather'] = request.args.get('weather')
+    if 'data_state' in session:
+        past_type = session.get('data_state')
+    else:
+        past_type = 'past'
+    
     if 'city' in session:
         city_type = session.get('city')
     else:
         city_type = 'Seattle'
-        # return render_template('plot.html', graph_html=plotting(location=session['city'], type=session['type']))
+
     if 'weather' in session:
         weather_type = session.get('weather')
-        # weather_type = session.get('weather', None)
-        # return render_template('plot.html', graph_html=plotting(location=session['city'], type=session['type']))
-        # return render_template('plot.html', graph_html=plotting(session['city']))
     else:
-        weather_type = '\'temp\''
-    if city_type == 'Seattle' and weather_type == 'temp':
-        return render_template('plot.html', graph_html=plotting())
-    else:
-        return render_template('plot.html', graph_html=plotting(location=city_type, type=weather_type))  
-
-@app.route('/plot', methods=['GET'])
-def plot_type():
-    print("I am in plot")
-    if request.method == 'GET' and 'type' in request.args and request.args.get('type') is not None:
-        session['type'] = request.args.get('type')
-    if 'type' in session:
-        return render_template('plot.html', graph_html=plotting(session['type']))
-    return render_template('plot.html', graph_html=plotting() )
+        weather_type = 'temp'
+    return render_template('plot.html', graph_html=plotting(location=city_type, type=weather_type, current_state=past_type))  
 
 # Define a route for the root URL ("/") that returns "Hello World"
 @app.route('/dashboard', methods=['GET'])
@@ -108,6 +109,7 @@ def login():
         user = UserModel.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
+            flash('Logged in successfully.', 'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid email or password.', 'danger')
@@ -119,54 +121,6 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
-@app.route('/account')
-@login_required
-def account():
-    form = DeleteAccountForm()
-    return render_template('account.html', email=current_user.email, form=form)
-
-@app.route('/delete_account', methods=['GET', 'POST'])
-@login_required
-def delete_account():
-    form = DeleteAccountForm()
-    if form.validate_on_submit():
-        user  = current_user
-        db.session.delete(user)
-        db.session.commit()
-        flash('Your account has been deleted', 'success')
-        logout()
-        return redirect(url_for('home'))
-    return render_template('delete_account.html', form=form)
-
-@app.route('/update_email', methods=['GET', 'POST'])
-@login_required
-def update_email():
-    form = UpdateEmailForm()
-    if form.validate_on_submit():
-        current_user.email = form.email.data
-        db.session.commit()
-        flash('Your email address has been updated', 'success')
-        return redirect(url_for('account'))
-    return render_template('update_email.html', form=form)
-
-@app.route('/change_password', methods=['GET', 'POST'])
-@login_required
-def change_password():
-    form = ChangePasswordForm()
-    if form.validate_on_submit():
-        if not current_user.check_password(form.old_password.data):
-            flash('Old password is incorrect.', 'danger')
-        else:
-            current_user.set_password(form.new_password.data)
-            db.session.commit()
-            flash('Your password has been updated.', 'success')
-            return redirect(url_for('account'))
-    return render_template('change_password.html', form=form)
 
 # Run the application if this script is being run directly
 if __name__ == '__main__':
