@@ -1,4 +1,17 @@
+{% extends 'dashboard.html' %}
+
+
+{% block content %}
 <!DOCTYPE html>
+<main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Map of Precipitation</h2>
+            <div>
+        </div>
+     </section><!-- End Breadcrumbs -->          
 <html>
   <head>
     <title>Simple Map</title>
@@ -66,7 +79,8 @@
     // CSS styles as a string
     const styles = `
                 #map {
-                    height: 100%;
+                    height: 600px;
+                    witdth: 600px
                 }
 
                 html, body {
@@ -90,3 +104,4 @@
     </script>
 </body>
 </html>
+{% endblock %}
