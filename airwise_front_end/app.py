@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, flash, url_for, jsonify
 from flask_login import login_user, logout_user, login_required
 from models import db, login_manager, UserModel, load_user
-from api_sfo import get_sfo_low_06, get_sfo_low_12, get_sfo_low_24
+from api_sfo import get_sfo
 from api_other_pac import get_wind_temp_data
 from api_obs import get_obstacle_data
 from forms import LoginForm, RegisterForm
@@ -77,16 +77,11 @@ def dashboard():
     region = request.args.get('region', 'sfo')
     fcst = request.args.get('fcst', '06')
     level = request.args.get('level', 'low')
-    
+    print(region,fcst,level)
     app.logger.info(f'Region: {region}, Forecast: {fcst}, Level: {level}')
 
     if region == 'sfo':
-        if fcst == '06':
-            wind_temp_data = get_sfo_low_06(region=region, level=level, fcst=fcst)
-        elif fcst == '12':
-            wind_temp_data = get_sfo_low_12(region=region, level=level, fcst=fcst)
-        elif fcst == '24':
-            wind_temp_data = get_sfo_low_24(region=region, level=level, fcst=fcst)
+        wind_temp_data = get_sfo(region=region, level=level, fcst=fcst)
     elif region == 'other_pac':
         wind_temp_data = get_wind_temp_data(region=region, level=level, fcst=fcst)
     else:
@@ -98,7 +93,7 @@ def dashboard():
     
     return render_template('dashboard.html', wind_temp_data=wind_temp_data, obstacle_data=obstacle_data, region=region, fcst=fcst, level=level)
 
-@app.route('/get_wind_temp_data', methods=['GET'])
+@app.route('/get_wind_temp', methods=['GET'])
 @login_required
 def get_wind_temp():
     region = request.args.get('region', 'sfo')
@@ -108,14 +103,9 @@ def get_wind_temp():
     app.logger.info(f'Region: {region}, Forecast: {fcst}, Level: {level}')
     
     if region == 'sfo':
-        if fcst == '06':
-            data = get_sfo_low_06(region=region, level=level, fcst=fcst)
-        elif fcst == '12':
-            data = get_sfo_low_12(region=region, level=level, fcst=fcst)
-        elif fcst == '24':
-            data = get_sfo_low_24(region=region, level=level, fcst=fcst)
+        data = get_sfo(region=region, level=level, fcst=fcst)
     elif region == 'other_pac':
-        data = get_wind_temp_data(region=region, level=level, fcst=fcstt)
+        data = get_wind_temp_data(region=region, level=level, fcst=fcst)
     else:
         pass
         # Assuming you want to combine data from both regions if 'all' is selected
@@ -123,7 +113,7 @@ def get_wind_temp():
     
     return jsonify(data)
 
-@app.route('/get_obstacle_data', methods=['GET'])
+@app.route('/get_obstacle', methods=['GET'])
 @login_required
 def get_obstacle():
     bbox = request.args.get('bbox', '40,-90,45,-85')

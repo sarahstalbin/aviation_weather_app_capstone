@@ -85,21 +85,6 @@
               <option value="all" {% if region == 'all' %}selected{% endif %}>All Regions</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="forecast">Select Forecast:</label>
-            <select id="forecast" name="forecast" class="form-control">
-              <option value="06" {% if forecast == '06' %}selected{% endif %}>06</option>
-              <option value="12" {% if forecast == '12' %}selected{% endif %}>12</option>
-              <option value="24" {% if forecast == '24' %}selected{% endif %}>24</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="level">Select Level:</label>
-            <select id="level" name="level" class="form-control">
-              <option value="low" {% if level == 'low' %}selected{% endif %}>Low</option>
-              <option value="high" {% if level == 'high' %}selected{% endif %}>High</option>
-            </select>
-          </div>
           <button type="submit" class="btn btn-primary">Get Data</button>
         </form>
         <hr>
@@ -115,20 +100,62 @@
           {% else %}
             <p>No data available.</p>
           {% endif %}
-        </div>
+       <div id="obstacle-data">
+        <h2>Obstacle Data</h2>
+        <div id="obstacle-data-content"></div>
+        <button id="get-obstacle-data">Get Obstacle Data</button>
+        <button id="hide-obstacle-data">Hide Data</button>
+      </div>
 
-        <div id="obstacle-data">
-          <h2>Obstacle Data</h2>
-          {% if obstacle_data %}
-            <ul>
-              {% for item in obstacle_data %}
-                <li>Latitude: {{ item.latitude }}, Longitude: {{ item.longitude }}, Elevation: {{ item.elevation }} ft, Height: {{ item.height }} ft, Type: {{ item.type }}, Name: {{ item.name }}</li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p>No data available.</p>
-          {% endif %}
-        </div>
+       <script>
+ 	const getObstacleDataButton = document.getElementById('get-obstacle-data');
+  	const obstacleDataContent = document.getElementById('obstacle-data-content');
+        const hideObstacleDataButton = document.getElementById('hide-obstacle-data');
+
+    getObstacleDataButton.addEventListener('click', function() {
+         const xhr = new XMLHttpRequest();
+         xhr.open('GET', '/get_obstacle');  // Replace with your actual endpoint URL
+         xhr.onload = function() {
+      if (xhr.status === 200) {
+        const obstacleData = JSON.parse(xhr.responseText);
+        updateObstacleData(obstacleData);  // Function to update content (see below)
+      } else {
+        console.error('Error retrieving obstacle data:', xhr.statusText);
+        // Handle errors (optional: display an error message)
+      }
+    };
+    xhr.send();
+  });
+ 
+  function updateObstacleData(data) {
+    // Function to update obstacle data content in the HTML
+    let content = "";
+    if (data.length > 0) {
+      // Use a loop to create table rows for each obstacle
+      content = "<table>";
+      content += "<thead><tr><th>Type</th><th>Name</th><th>Latitude</th><th>Longitude</th><th>Elevation (ft)</th><th>Height (ft)</th></tr></thead>";
+      content += "<tbody>";
+      for (const item of data) {
+        content += `<tr><td>${item.type}</td><td>${item.name}</td><td>${item.latitude}</td><td>${item.longitude}</td><td>${item.elevation}</td><td>${item.height}</td></tr>`;
+      }
+      content += "</tbody></table>";
+    } else {
+      content = "<p>No obstacles found for this area.</p>";
+    }
+    obstacleDataContent.innerHTML = content;
+  }
+hideObstacleDataButton.addEventListener('click', function() {
+  if (obstacleDataContent.innerHTML !== "") {  // Check if content exists
+    obstacleDataContent.innerHTML = "";  // Clear obstacle data content
+    obstacleDataContent.style.display = 'none'; // Hide the element (optional)
+  }
+});
+
+</script>
+
+       </div>
+
+        
       </div>
     </section>
 
