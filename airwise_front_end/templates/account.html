@@ -18,36 +18,7 @@
 {% endblock hero %}
 
 {% block content %}
-<main id="main">
 
-    <!-- ======= Breadcrumbs ======= -->
-    <section class="breadcrumbs">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>My Account</h2>
-                <ol>
-                    <li><a href="home">Home</a></li>
-                    <li>Account Settings</li>
-                </ol>
-            </div>
-        </div>
-    </section><!-- End Breadcrumbs -->
-
-    <section class="inner-page">
-        <div class="container">
-            <h5>Registered Email:</h5>
-            <p>{{ email }}</p>
-            <h5>Member Since</h5>
-            <p>Date TBD</p>
-            <form method="post" action="{{ url_for('delete_account') }}">
-                {{ form.hidden_tag() }}
-                <a class="btn-get-started scrollto" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
-                    Delete My Account
-                </an>
-            </form>
-        </div>
-    </section>
-</main>
 {% endblock content %}
   <!-- ======= Footer ======= -->
 {% block footer %}
@@ -59,7 +30,9 @@
                     <h4>Useful Links</h4>
                     <ul>
                         <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('home')}}">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+		        <form method="post" action="{{ url_for('delete_account') }}">
+			  {{ form.hidden_tag() }}
+                          <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('delete_account') }}">Delete Account</a></li>
                     </ul>
                 </div>
             </div>
