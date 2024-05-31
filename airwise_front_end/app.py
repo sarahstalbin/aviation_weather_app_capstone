@@ -6,7 +6,7 @@ from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm, C
 from forms import LoginForm, RegisterForm
 from api_sfo import get_wind_temp_data
 from plot_data import plotting
-from flask_login import login_user, logout_user, login_required 
+from flask_login import login_user, logout_user, login_required, current_user
 from models import db, login_manager, UserModel, load_user
 from flask import request
 
