@@ -78,7 +78,7 @@
     <!-- Wind/Temp Selection -->
     <div class="card mb-3">
       <div class="card-header">
-        Select Region For Wind/Temp:
+        Select Region For Wind Speed/Direction:
       </div>
       <div class="card-body">
         <form method="get" action="{{ url_for('dashboard') }}">
@@ -104,7 +104,7 @@
     <!-- Wind/Temp Data Display -->
     <hr>
     <div id="wind-temp-data">
-      <h2>Wind and Temperature Data</h2>
+      <h2>Wind Speed and Wind Direction  Data</h2>
       {% if wind_temp_data %}
       <table class="table table-striped">
         <thead>
