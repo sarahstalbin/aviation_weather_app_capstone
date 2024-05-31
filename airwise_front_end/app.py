@@ -92,7 +92,6 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Registration successful, please log in.', 'success')
         user_exists = True
         session.clear()
         return redirect(url_for('registration_confirmed'))
@@ -109,7 +108,6 @@ def login():
         user = UserModel.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            flash('Logged in successfully.', 'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid email or password.', 'danger')

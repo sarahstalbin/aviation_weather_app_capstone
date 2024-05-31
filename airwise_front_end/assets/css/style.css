@@ -364,6 +364,16 @@ h6 {
   padding: 0;
 }
 
+#hero-registration {
+  width: 100%;
+  height: 60vh;
+  background: url("../img/registration_confirmation.jpg") center center;
+  background-size: cover;
+  position: relative;
+  margin-top: 70px;
+  padding: 0;
+}
+
 #hero-account {
   width: 100%;
   height: 60vh;
@@ -396,6 +406,14 @@ h6 {
   color: #fff;
 }
 
+#hero-registration h1 {
+  margin: 0 0 10px 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  color: #fff;
+}
+
 #hero h1 span {
   border-bottom: 4px solid #3498db;
 }
@@ -419,6 +437,22 @@ h6 {
   background: #def2ff;
   text-transform: uppercase;
   opacity: 0.6;
+}
+
+#hero-registration .btn-get-started {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 4px;
+  transition: ease-in-out 0.3s;
+  color: #332b2b;
+  background: #def2ff;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 10px;
 }
 
 #hero-account .btn-get-started {
