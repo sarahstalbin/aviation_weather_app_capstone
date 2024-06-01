@@ -4,11 +4,15 @@ import plotly.io as pio
 from future_data import specific_data
 
 
-def plotting(location="Seattle",type='\'temp\'', current_state=False):
+def plotting(location="Seattle",type='temp', current_state='past'):
     # Sample weather data dictionary (simplified for example)
     
     weather_data = specific_data(location, type, current_state)
-    type = type[1:-1]
+    if current_state[0] == "'":
+        current_state = current_state[1:-1]
+    cap_state = current_state.capitalize()
+    if type[0] == "'":
+        type = type[1:-1]
     if location[0] == "'":
         location = location[1:-1]
     # Extracting data for plotting
@@ -26,16 +30,16 @@ def plotting(location="Seattle",type='\'temp\'', current_state=False):
 
     if type == 'temp':
         fig.update_yaxes(title_text="Temperature (°C)")
-        top_title = f'Temperature Data for {location}'
+        top_title = f'{cap_state} Temperature Data for {location}'
     elif type == 'humidity':
         fig.update_yaxes(title_text="Humidity (%)")
-        top_title = f'Humidity Data for {location}'
+        top_title = f'{cap_state} Humidity Data for {location}'
     elif type == 'precip':
         fig.update_yaxes(title_text="Precipitation (mm)")
-        top_title = f'Precipitation Data for {location}'
+        top_title = f'{cap_state} Precipitation Data for {location}'
     else:
         fig.update_yaxes(title_text="Visibility (m)")
-        top_title = f'Visibility Data for {location}'
+        top_title = f'{cap_state} Visibility Data for {location}'
 
     # Customize layout
     fig.update_layout(       
