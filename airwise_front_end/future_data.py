@@ -62,7 +62,7 @@ def get_raw_weather_data(location='Seattle', current_state='future'):
     #       print(f'Request error occurred: {req_err}')
     #  except ET.ParseError as parse_err:
     #     print(f'XML parse error: {parse_err}')
-    print("this is weather data in get_hist_data",weather_data)
+    #print("this is weather data in get_hist_data",weather_data)
     
 
 
