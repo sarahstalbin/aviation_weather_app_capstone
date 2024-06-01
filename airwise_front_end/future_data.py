@@ -177,9 +177,3 @@ def specific_data(location='Seattle',type='temp', current_state='future'):
         weather_dict.append(single_day)
 
     return weather_dict
-
-
-
-if __name__ == '__main__':
-    
-    print(specific_data('Seatte','temp', 'past'))
