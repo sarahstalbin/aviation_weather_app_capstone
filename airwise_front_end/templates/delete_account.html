@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Account - AirWise: Flight Weather Assessment{% endblock %}
+
+{% block hero %}
+<!-- override hero section -->
+
+{% endblock hero %}
+
+{% block content %}
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <ol>
+                    <li><a href="home">Home</a></li>
+                    <li>Delete Account</li>
+                </ol>
+            </div>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+        <div class="container form-container">
+            <p>
+                Are you sure you want to <strong>delete your account</strong>? This action cannot be undone. 
+            </p>
+            <form method="post">
+               {{ form.hidden_tag() }}
+               {{ form.submit() }}
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock content %}
+  <!-- ======= Footer ======= -->
+{% block footer %}
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('home') }}">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-md-flex py-4">
+        <div class="me-md-auto text-center text-md-start">
+            <div class="copyright">
+                &copy; Copyright <strong><span>AirWise, Inc.</span></strong>. All Rights Reserved
+            </div>
+        </div>
+    </div>
+</footer><!-- End Footer -->
+{% endblock footer %}

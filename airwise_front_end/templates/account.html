@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}My Account - AirWise: Flight Weather Assessment{% endblock %}
+
+{% block hero %}
+<!-- override hero section -->
+<section id="hero-account" class="d-flex flex-column justify-content-center align-items-center">
+  <div class="container text-center text-md-left" data-aos="fade-up">
+    <h1>Account <span>Settings</span></h1>
+    <form method="get" action="{{ url_for('update_email') }}">
+      <a href="{{ url_for('update_email') }}" class="btn-get-started scrollto">Update Email</a>
+    </form>
+    <form method="get" action="{{ url_for('change_password') }}">
+      <a href="{{ url_for('change_password') }}" class="btn-get-started scrollto">Change Password</a>
+    </form>
+</section>
+
+{% endblock hero %}
+
+{% block content %}
+
+{% endblock content %}
+  <!-- ======= Footer ======= -->
+{% block footer %}
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('home')}}">Home</a></li>
+		        <form method="post" action="{{ url_for('delete_account') }}">
+			  {{ form.hidden_tag() }}
+                          <li><i class="bx bx-chevron-right"></i> <a href="{{ url_for('delete_account') }}">Delete Account</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-md-flex py-4">
+        <div class="me-md-auto text-center text-md-start">
+            <div class="copyright">
+                &copy; Copyright <strong><span>AirWise, Inc.</span></strong>. All Rights Reserved
+            </div>
+        </div>
+    </div>
+</footer><!-- End Footer -->
+{% endblock footer %}

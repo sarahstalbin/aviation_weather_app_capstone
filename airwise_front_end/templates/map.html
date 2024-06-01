@@ -1,0 +1,193 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Weather Map</h2>
+            </div>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <html>
+        <head>
+            <title>Interactive Timelapse Map</title>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+            <style>
+                #map {
+                    height: 600px;
+                    width: 100%;
+                    position: relative; /* Ensure position context for absolute positioning */
+                }
+                .custom-overlay {
+                    position: absolute;
+                    bottom: 10px; /* Adjust distance from bottom */
+                    left: 20px; /* Adjust distance from left */
+                    z-index: 1000; /* Ensure the overlay appears above the map */
+                    padding: 10px;
+                    background-color: white;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+        }
+
+                    .custom-overlay img {
+                        max-width: 250px;
+                        height: auto;
+        }    
+
+                /* html, body {
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
+                #lower-right-image {
+                position: absolute;
+                bottom: 10px; /* Adjust distance from bottom */
+                /* right: 10px; /* Adjust distance from right */
+                /* z-index: 1000; Ensure the image appears above the map */
+                /* width: 300px; Adjust image width */
+                /* height: auto; Maintain aspect ratio */ */
+                /* } */
+                .controls {
+                    margin: 10px;
+                } */
+            </style>
+        </head>
+        <body>
+
+        
+             <div class="controls">
+                <button onclick="updateDataField('temperature')">Temperature</button>
+                <button onclick="updateDataField('precipitationIntensity')">Precipitation Intensity</button>
+                <button onclick="updateDataField('windSpeed')">Wind Speed</button>
+                <button onclick="updateDataField('windDirection')">Wind Direction</button>
+                <button onclick="updateDataField('visibility')">Visibility</button>
+                <button onclick="startTimelapse()">Start Timelapse</button>
+                <button onclick="stopTimelapse()">Stop Timelapse</button>
+            </div>
+            <div id="map"></div>
+            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3KbYljeA9eHFq9hm_0-qKDPvNeqtiYyE&callback=initMap&libraries=&v=weekly">
+            </script>
+
+            <script>
+                let map;
+                let imageMapType;
+                let API_KEY = '0ZQsTAdc0eMA81LFBmafbeWDbFHhF4ud';
+                let DATA_FIELD = 'precipitationIntensity';
+                let TIMESTAMP = (new Date()).toISOString();
+                let timelapseInterval;
+                const TIMELAPSE_INTERVAL_MS = 1000; // Update every second
+                const TIME_STEP_MS = 3600 * 1000; // 1 hour per step
+
+                function getTileUrl(coord, zoom) {
+                    if (zoom > 12) {
+                        return null;
+                    }
+
+                    return `https://api.tomorrow.io/v4/map/tile/${zoom}/${coord.x}/${coord.y}/${DATA_FIELD}/${TIMESTAMP}.png?apikey=${API_KEY}`;
+                }
+
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 7,
+                        center: { lat: 47.6051, lng: -122.3339 }
+                    });
+
+                    imageMapType = new google.maps.ImageMapType({
+                        getTileUrl: function (coord, zoom) {
+                            return getTileUrl(coord, zoom);
+                        },
+                        tileSize: new google.maps.Size(256, 256),
+                        name: 'CustomTiles'
+                        opacity: 0.5,
+                    });
+
+                    map.overlayMapTypes.push(imageMapType);
+                    
+                     // Add custom overlay
+                    customOverlay = document.createElement('div');
+                    customOverlay.className = 'custom-overlay';
+                    image = document.createElement('img');
+                    image.src = 'static/img/precipitation.png'; // Initial image source
+                    image.alt = 'Image Description';
+                    customOverlay.appendChild(image);
+                    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(customOverlay);
+                }
+
+                function updateDataField(newField) {
+                    DATA_FIELD = newField;
+                    refreshMapTiles();
+                    updateImage();
+                }
+
+                function refreshMapTiles() {
+                    map.overlayMapTypes.removeAt(0); // Remove the existing overlay
+                    imageMapType = new google.maps.ImageMapType({
+                        getTileUrl: function (coord, zoom) {
+                            return getTileUrl(coord, zoom);
+                        },
+                        tileSize: new google.maps.Size(256, 256),
+                        name: 'CustomTiles'
+                        opacity: 0.5,
+                    });
+                    map.overlayMapTypes.push(imageMapType); // Add the new overlay
+                }
+                
+                function updateImage() {
+                    // Update the image source based on the current data field
+                    switch (DATA_FIELD) {
+                        case 'temperature':
+                            image.src = 'static/img/temperature.png';
+                            break;
+                        case 'precipitationIntensity':
+                            image.src = 'static/img/precipitation.png';
+                            break;
+                        case 'windSpeed':
+                            image.src = 'static/img/wind_speed.png';
+                            break;
+                        case 'windDirection':
+                            image.src = 'static/img/wind_direction.png';
+                            break;
+                        case 'visibility':
+                            image.src = 'static/img/visibility.png';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+
+                function startTimelapse() {
+                    stopTimelapse(); // Ensure any existing timelapse is stopped
+                    timelapseInterval = setInterval(() => {
+                        TIMESTAMP = new Date(Date.parse(TIMESTAMP) + TIME_STEP_MS).toISOString();
+                        refreshMapTiles();
+                    }, TIMELAPSE_INTERVAL_MS);
+                }
+
+                function stopTimelapse() {
+                    if (timelapseInterval) {
+                        clearInterval(timelapseInterval);
+                        timelapseInterval = null;
+                    }
+                }
+
+                function loadScript() {
+                    const YOUR_API_KEY = 'AIzaSyC3KbYljeA9eHFq9hm_0-qKDPvNeqtiYyE';
+                    const script = document.createElement('script');
+                    script.src = `https://maps.googleapis.com/maps/api/js?key=${YOUR_API_KEY}&callback=initMap`;
+                    script.defer = true;
+                    script.async = true;
+                    document.head.appendChild(script);
+                }
+
+                window.onload = loadScript;
+            </script>
+        </body>
+    </html>
+{% endblock %}
