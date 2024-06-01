@@ -71,7 +71,7 @@ def filter_weather_data(location='Seattle',current_state='future'):
     # print(f"This is weather data in filter weather {weather_data}")
     if weather_data is None:
         return ""
-    print(f"This is weather data in get weather {weather_data}")
+    #print(f"This is weather data in get weather {weather_data}")
     wind_temp_data = []
     for site in weather_data['days']:
         value = {
