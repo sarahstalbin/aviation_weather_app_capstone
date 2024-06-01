@@ -37,36 +37,38 @@ def dashboard():
     fcst = request.args.get('fcst', '06')
     level = request.args.get('level', 'low')
     get_metar_flag = request.args.get('get_metar', None)
+    get_wind_flag = request.args.get('get_wind', None)
 #    print(region,fcst,level)
     app.logger.info(f'Region: {region}, Forecast: {fcst}, Level: {level}')
+    if get_wind_flag:
+    	if region == 'sfo':
+            wind_temp_data = get_sfo(region=region, level=level, fcst=fcst)
+    	elif region == 'other_pac':
+            wind_temp_data = get_other_pac(region=region, level=level, fcst=fcst)
+    	elif region == 'hawaii':
+            wind_temp_data = get_hawaii(region=region, level=level, fcst=fcst)
+    	elif region == 'all':
+            wind_temp_data = get_all(region=region, level=level, fcst=fcst)
+    	elif region == 'alaska':
+            wind_temp_data = get_alaska(region=region, level=level, fcst=fcst)
+    	elif region == 'bos':
+            wind_temp_data = get_north_east(region=region, level=level, fcst=fcst)
+    	elif region == 'mia':
+            wind_temp_data = get_south_east(region=region, level=level, fcst=fcst)
+    	elif region == 'chi':
+            wind_temp_data = get_north_central(region=region, level=level, fcst=fcst)
+    	elif region == 'dfw':
+            wind_temp_data = get_south_central(region=region, level=level, fcst=fcst)
+    	elif region == 'slc':
+            wind_temp_data = get_rocky_mountain(region=region, level=level, fcst=fcst)
 
-    if region == 'sfo':
-        wind_temp_data = get_sfo(region=region, level=level, fcst=fcst)
-    elif region == 'other_pac':
-        wind_temp_data = get_other_pac(region=region, level=level, fcst=fcst)
-    elif region == 'hawaii':
-        wind_temp_data = get_hawaii(region=region, level=level, fcst=fcst)
-    elif region == 'all':
-        wind_temp_data = get_all(region=region, level=level, fcst=fcst)
-    elif region == 'alaska':
-        wind_temp_data = get_alaska(region=region, level=level, fcst=fcst)
-    elif region == 'bos':
-        wind_temp_data = get_north_east(region=region, level=level, fcst=fcst)
-    elif region == 'mia':
-        wind_temp_data = get_south_east(region=region, level=level, fcst=fcst)
-    elif region == 'chi':
-        wind_temp_data = get_north_central(region=region, level=level, fcst=fcst)
-    elif region == 'dfw':
-        wind_temp_data = get_south_central(region=region, level=level, fcst=fcst)
-    elif region == 'slc':
-        wind_temp_data = get_rocky_mountain(region=region, level=level, fcst=fcst)
-
+    	else:
+            pass
     else:
-        pass
-
+        wind_temp_data= []
     metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z") if get_metar_flag else None
     
-    return render_template('dashboard.html', wind_temp_data=wind_temp_data, metar_data = metar_data,  region=region, fcst=fcst, level=level)
+    return render_template('dashboard.html',wind_temp_data = wind_temp_data, metar_data = metar_data,  region=region, fcst=fcst, level=level)
 
 @app.route('/get_wind_temp', methods=['GET'])
 @login_required
