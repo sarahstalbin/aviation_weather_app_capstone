@@ -108,7 +108,7 @@ def login():
         user = UserModel.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('account'))
         else:
             flash('Invalid email or password.', 'danger')
     return render_template('login.html', form=form)
