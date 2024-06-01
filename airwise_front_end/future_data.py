@@ -4,7 +4,7 @@ import requests, json, os
 from datetime import date, timedelta
 
 def get_raw_weather_data(location='Seattle', current_state='future'):
-    api_key = 'EBBMX4R5X9X9EYAYQ4S9FNDS4'
+    api_key = 'SEP57NA379ABVFKFM88C5QU5G'
     city = location+',USA'
     end_date = date.today()
     start_date=date.today() - timedelta(days=5)
@@ -129,7 +129,7 @@ def get_daily_data(location='Seattle'):
     return forecast_dict
 
 
-def get_past_data(location='Seattle',type='\'temp\'', past=True):
+def get_past_data(location='Seattle',type='temp', past=True):
     past = True
     forecast_data = get_weather_data(location, past)
     # type = str(type)
@@ -151,13 +151,11 @@ def get_past_data(location='Seattle',type='\'temp\'', past=True):
 
     return weather_dict
 
-def specific_data(location='Seattle',type='\'temp\'', current_state='future'):
+def specific_data(location='Seattle',type='temp', current_state='future'):
     
     if current_state[0] == "'":
         current_state = current_state[1:-1]
-    
     forecast_data = filter_weather_data(location, current_state)
-    type = str(type)
     if type[0] == "'":
         type = type[1:-1]
     weather_dict=[]
@@ -179,6 +177,5 @@ def specific_data(location='Seattle',type='\'temp\'', current_state='future'):
 
 
 if __name__ == '__main__':
-    # specific_data('Seatte','\'temp\'')
+    
     specific_data('Seatte','temp', 'past')
-    # forecast_data('Seatte')    pass
