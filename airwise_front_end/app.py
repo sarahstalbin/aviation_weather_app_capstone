@@ -4,7 +4,8 @@ import os
 from flask import Flask, render_template, request, session, redirect, flash, url_for
 from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm, ChangePasswordForm
 from forms import LoginForm, RegisterForm
-from api_sfo import get_wind_temp_data
+from api_sfo import get_sfo, get_hawaii, get_all, get_alaska, get_other_pac, get_south_central, get_north_central, get_rocky_mountain, get_south_east, get_north_east
+from api_metars import get_metar
 from plot_data import plotting
 from flask_login import login_user, logout_user, login_required, current_user
 from models import db, login_manager, UserModel, load_user
@@ -38,6 +39,45 @@ def create_db():
 @app.route('/home')
 def home():
     return render_template('base.html')
+@app.route('/dashboard', methods=['GET'])
+@login_required
+def dashboard():
+    region = request.args.get('region', 'sfo')
+    fcst = request.args.get('fcst', '06')
+    level = request.args.get('level', 'low')
+    get_metar_flag = request.args.get('get_metar', None)
+    get_wind_flag = request.args.get('get_wind', None)
+#    print(region,fcst,level)
+    app.logger.info(f'Region: {region}, Forecast: {fcst}, Level: {level}')
+    if get_wind_flag:
+        if region == 'sfo':
+            wind_temp_data = get_sfo(region=region, level=level, fcst=fcst)
+        elif region == 'other_pac':
+            wind_temp_data = get_other_pac(region=region, level=level, fcst=fcst)
+        elif region == 'hawaii':
+            wind_temp_data = get_hawaii(region=region, level=level, fcst=fcst)
+        elif region == 'all':
+            wind_temp_data = get_all(region=region, level=level, fcst=fcst)
+        elif region == 'alaska':
+            wind_temp_data = get_alaska(region=region, level=level, fcst=fcst)
+        elif region == 'bos':
+            wind_temp_data = get_north_east(region=region, level=level, fcst=fcst)
+        elif region == 'mia':
+            wind_temp_data = get_south_east(region=region, level=level, fcst=fcst)
+        elif region == 'chi':
+            wind_temp_data = get_north_central(region=region, level=level, fcst=fcst)
+        elif region == 'dfw':
+            wind_temp_data = get_south_central(region=region, level=level, fcst=fcst)
+        elif region == 'slc':
+            wind_temp_data = get_rocky_mountain(region=region, level=level, fcst=fcst)
+
+        else:
+            pass
+    else:
+        wind_temp_data= []
+    metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z") if get_metar_flag else None
+    
+    return render_template('dashboard.html',wind_temp_data = wind_temp_data, metar_data = metar_data,  region=region, fcst=fcst, level = level)
 
 
 @app.route('/map')
@@ -70,15 +110,6 @@ def plot():
         weather_type = 'temp'
     return render_template('plot.html', graph_html=plotting(location=city_type, type=weather_type, current_state=past_type))  
 
-# Define a route for the root URL ("/") that returns "Hello World"
-@app.route('/dashboard', methods=['GET'])
-@login_required
-def dashboard():
-    if request.method == 'GET' and 'sites' in request.args and request.args.get('sites') is not None:
-        session['sites'] = request.args.get('sites')
-    if 'sites' in session:
-        return render_template('dashboard.html', sites=get_wind_temp_data(di=session['sites']))
-    return render_template('dashboard.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -108,7 +139,7 @@ def login():
         user = UserModel.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect(url_for('account'))
+            return redirect(url_for('dashboard'))
         else:
             flash('Invalid email or password.', 'danger')
     return render_template('login.html', form=form)
