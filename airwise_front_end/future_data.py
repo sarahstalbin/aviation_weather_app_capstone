@@ -56,7 +56,8 @@ def get_raw_weather_data(location='Seattle', current_state='future'):
             return None
             
     except requests.exceptions.HTTPError as http_err:
-        return f'HTTP error occurred: {http_err}'
+        print(f'HTTP error occurred: {http_err}')
+        return None
     #    except requests.exceptions.RequestException as req_err:
     #       print(f'Request error occurred: {req_err}')
     #  except ET.ParseError as parse_err:
@@ -69,8 +70,8 @@ def filter_weather_data(location='Seattle',current_state='future'):
     weather_data = get_raw_weather_data(location, current_state)
     # print(f"This is weather data in filter weather {weather_data}")
     if weather_data is None:
-        return 'No data for selected parameters'
-    # print(f"This is weather data in get weather {weather_data}")
+        return ""
+    print(f"This is weather data in get weather {weather_data}")
     wind_temp_data = []
     for site in weather_data['days']:
         value = {
@@ -160,9 +161,12 @@ def specific_data(location='Seattle',type='temp', current_state='future'):
         type = type[1:-1]
     weather_dict=[]
     if not forecast_data:
-        # print(type)
-        # print(location)
-        return 'No data for selected parameters'
+        holder = {
+            'datetime': '2024-6-1',
+            type: 5
+        }
+        weather_dict.append(holder)
+        print('No data for selected parameters')
 
     for data in forecast_data:
         # if type in hist_data:
@@ -178,4 +182,4 @@ def specific_data(location='Seattle',type='temp', current_state='future'):
 
 if __name__ == '__main__':
     
-    specific_data('Seatte','temp', 'past')
+    print(specific_data('Seatte','temp', 'past'))
