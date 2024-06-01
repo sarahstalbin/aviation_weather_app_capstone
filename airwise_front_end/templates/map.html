@@ -49,24 +49,31 @@
                 /* right: 10px; /* Adjust distance from right */
                 /* z-index: 1000; Ensure the image appears above the map */
                 /* width: 300px; Adjust image width */
-                /* height: auto; Maintain aspect ratio */ */
+                /* height: auto; Maintain aspect ratio */
                 /* } */
                 .controls {
                     margin: 10px;
-                } */
+                } 
             </style>
         </head>
         <body>
-
-        
-             <div class="controls">
-                <button onclick="updateDataField('temperature')">Temperature</button>
-                <button onclick="updateDataField('precipitationIntensity')">Precipitation Intensity</button>
-                <button onclick="updateDataField('windSpeed')">Wind Speed</button>
-                <button onclick="updateDataField('windDirection')">Wind Direction</button>
-                <button onclick="updateDataField('visibility')">Visibility</button>
-                <button onclick="startTimelapse()">Start Timelapse</button>
-                <button onclick="stopTimelapse()">Stop Timelapse</button>
+            <div class="container d-flex align-items">
+                <ul></ul>
+            <!-- <nav id="navbar" class="navbar order-last order-lg-0"> -->
+             <!-- <div class="controls"> -->
+                <a onclick="updateDataField('temperature')">Temperature</a>
+                <span class="space-text">|</span>
+                <a onclick="updateDataField('precipitationIntensity')">Precipitation Intensity</a>
+                <span class="space-text">|</span>
+                <a onclick="updateDataField('windSpeed')">Wind Speed</a>
+                <span class="space-text">|</span>
+                <a onclick="updateDataField('windDirection')">Wind Direction</a>
+                <span class="space-text">|</span>
+                <a onclick="updateDataField('visibility')">Visibility</a>
+                <span class="space-text">|</span>
+                <a onclick="startTimelapse()">Start Timelapse</a>
+                <span class="space-text">|</span>
+                <a onclick="stopTimelapse()">Stop Timelapse</a>
             </div>
             <div id="map"></div>
             <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
@@ -77,7 +84,7 @@
             <script>
                 let map;
                 let imageMapType;
-                let API_KEY = '0ZQsTAdc0eMA81LFBmafbeWDbFHhF4ud';
+                let API_KEY = 'vDeo4aaSWkSP1V1LTcDmliTfqBKVsfzI';
                 let DATA_FIELD = 'precipitationIntensity';
                 let TIMESTAMP = (new Date()).toISOString();
                 let timelapseInterval;
