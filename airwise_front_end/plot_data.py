@@ -4,11 +4,12 @@ import plotly.io as pio
 from future_data import specific_data
 
 
-def plotting(location="Seattle",type='\'temp\'', current_state=False):
+def plotting(location="Seattle",type='temp', current_state=False):
     # Sample weather data dictionary (simplified for example)
     
     weather_data = specific_data(location, type, current_state)
-    type = type[1:-1]
+    if type[0] == "'":
+        type = type[1:-1]
     if location[0] == "'":
         location = location[1:-1]
     # Extracting data for plotting
