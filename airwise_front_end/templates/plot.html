@@ -1,0 +1,74 @@
+{% extends 'dashboard.html' %}
+
+<!-- {% block title %}Login{% endblock %} -->
+{% block content %}
+<!DOCTYPE html>
+<!-- <nav> -->
+<!-- <html> -->
+<!-- </script> -->
+<main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <!-- <div class="d-flex justify-content-between align-items-center"> -->
+                <h2>Weather Graph</h2>
+            </div>
+        </div>
+        <div class="container">
+                <!-- <div class="align-items-center"></div> -->
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                <li class="dropdown"><a href="#"><span>Past/Future View</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                    </li>
+                    <li><a href="{{ url_for('plot')}}?data_state='past'">Past</a></li>
+                    <li><a href="{{ url_for('plot')}}?data_state='future'">Future</a></li>
+                    </ul>    
+                </li>
+                    <li class="dropdown"><a href="#"><span>Locations</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                    </li>
+                    <li><a href="{{ url_for('plot')}}?city='Seattle'">Seattle</a></li>
+                    <li><a href="{{ url_for('plot')}}?city='New York'">New York</a></li>
+                    <li><a href="{{ url_for('plot')}}?city='Portland'">Portland</a></li>
+                    <li><a href="{{ url_for('plot')}}?city='Chicago'">Chicago</a></li>
+                    </ul>
+                </li>
+                <!-- </ul> -->
+                <!-- <ul> -->
+                    <li class="dropdown"><a href="#"><span>Weather Type</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                        </li>
+                        <li><a href="{{ url_for('plot')}}?weather='temp'">Temperature</a></li>
+                        <li><a href="{{ url_for('plot')}}?weather='humidity'">Humidity</a></li>
+                        <li><a href="{{ url_for('plot')}}?weather='precip'">Precipitation</a></li>
+                        <li><a href="{{ url_for('plot')}}?weather='visibility'">Visibility</a></li>
+                        </ul>
+                    </li>
+                </ul>
+         </div>
+    </section>
+    </main>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+    <!-- <select id="dropdown" name="dropdown">
+        <option value="option1">Seattle</option>
+        <option value="option2">New York</option>
+        <option value="option3">Portland</option>
+        <option value="option4">Chicago</option>
+    </select> -->
+</body>
+</html>
+
+<html>
+<head>
+    <!-- <title>Plotly in Flask</title> -->
+</head>
+<body>
+    <!-- <h2>Weather Data</h2> -->
+    <div>
+        {{ graph_html | safe }}
+    </div>
+</body>
+</html>
+{% endblock %}
