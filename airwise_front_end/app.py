@@ -110,15 +110,6 @@ def plot():
         weather_type = 'temp'
     return render_template('plot.html', graph_html=plotting(location=city_type, type=weather_type, current_state=past_type))  
 
-# Define a route for the root URL ("/") that returns "Hello World"
-@app.route('/dashboard', methods=['GET'])
-@login_required
-def dashboard():
-    if request.method == 'GET' and 'sites' in request.args and request.args.get('sites') is not None:
-        session['sites'] = request.args.get('sites')
-    if 'sites' in session:
-        return render_template('dashboard.html', sites=get_wind_temp_data(di=session['sites']))
-    return render_template('dashboard.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
