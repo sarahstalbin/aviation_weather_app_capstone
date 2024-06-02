@@ -7,19 +7,21 @@
     <section class="breadcrumbs">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Weather Map</h2>
+                <h2>Interactive Timelapse Weather Map</h2>
             </div>
         </div>
-    </section><!-- End Breadcrumbs -->
+    <!-- </section>End Breadcrumbs -->
 
     <html>
         <head>
-            <title>Interactive Timelapse Map</title>
+            <body>
+            <!-- <title>Interactive Timelapse Map</title> -->
             <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
             <style>
                 #map {
                     height: 600px;
-                    width: 100%;
+                    width: 95%;
+                    margin: 0 auto;
                     position: relative; /* Ensure position context for absolute positioning */
                 }
                 .custom-overlay {
@@ -63,7 +65,7 @@
             <!-- <nav id="navbar" class="navbar order-last order-lg-0"> -->
              <!-- <div class="controls"> -->
                 <li class="dropdown"><a href="#"><span>Weather Type</span><i class="bi bi-chevron-down"></i></a> <!--li gives button appearance-->
-                <ul>    
+                <ul>    <!-- does the dropdown-->
                 </li>
                        <li><a class="dropdown-item" onclick="updateDataField('temperature')">Temperature</a></li>
                         <a class="dropdown-item" onclick="updateDataField('precipitationIntensity')">Precipitation Intensity</a>
