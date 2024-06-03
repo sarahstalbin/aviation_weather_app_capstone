@@ -140,24 +140,30 @@
 </section>
 
 <script>
-  document.getElementById('hide-wind-temp-data').addEventListener('click', function() {
-    document.getElementById('wind-temp-data').style.display = 'none';
-  });
-   const metarSubmitButton = document.getElementById('metar-submit-button');
-  const metarDataSection = document.getElementById('metar-data-section');
-  const hideMetarButton = document.getElementById('hide-metar-data');
+  document.addEventListener('DOMContentLoaded', function() {
+    // Hide Wind/Temp Data on button click
+    const hideWindTempButton = document.getElementById('hide-wind-temp-data');
+    if (hideWindTempButton) {
+      hideWindTempButton.addEventListener('click', function() {
+        document.getElementById('wind-temp-data').style.display = 'none';
+      });
+    }
 
-  // Initial state: Hide the METAR data section if there's no table inside
-  if (!metarDataSection.querySelector('table')) {
-    metarDataSection.style.display = 'none';
-  }
+    // Hide METAR Data on button click
+    const hideMetarButton = document.getElementById('hide-metar-data');
+    const metarDataSection = document.getElementById('metar-data-section');
+    if (hideMetarButton && metarDataSection) {
+      hideMetarButton.addEventListener('click', function() {
+        metarDataSection.style.display = 'none';
+      });
+    }
 
-  // Hide METAR Data on button click
-  hideMetarButton.addEventListener('click', () => {
-    metarDataSection.style.display = 'none';
+    // Initial state: Hide the METAR data section if there's no table inside
+    if (metarDataSection && !metarDataSection.querySelector('table')) {
+      metarDataSection.style.display = 'none';
+    }
   });
 </script>
-
 </section>
 </main>
 {% endblock content %}
