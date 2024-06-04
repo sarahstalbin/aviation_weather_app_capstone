@@ -6,7 +6,7 @@ from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm, C
 from forms import LoginForm, RegisterForm
 from api_sfo import get_sfo, get_hawaii, get_all, get_alaska, get_other_pac, get_south_central, get_north_central, get_rocky_mountain, get_south_east, get_north_east
 from api_metars import get_metar
-from api_airports import seatac, white_center
+from api_airports import seatac, white_center, spokane, pullman
 from plot_data import plotting
 from flask_login import login_user, logout_user, login_required, current_user
 from models import db, login_manager, UserModel, load_user
@@ -59,9 +59,9 @@ def dashboard():
         elif selected_airport == 'white_center':
             airport_data = white_center()  # Call the function to fetch data for White Center
         elif selected_airport == 'spokane':
-            airport_data = white_center() 
+            airport_data = spokane() 
         elif selected_airport == 'pullman':
-            airport_data = white_center() 
+            airport_data = pullman() 
         # Add more conditions for other airports if needed
         else:
             airport_data = None  # Invalid selection
