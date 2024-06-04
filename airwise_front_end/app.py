@@ -58,6 +58,10 @@ def dashboard():
             airport_data = seatac()  # Call the function to fetch data for SeaTac
         elif selected_airport == 'white_center':
             airport_data = white_center()  # Call the function to fetch data for White Center
+        elif selected_airport == 'spokane':
+            airport_data = white_center() 
+        elif selected_airport == 'pullman':
+            airport_data = white_center() 
         # Add more conditions for other airports if needed
         else:
             airport_data = None  # Invalid selection
