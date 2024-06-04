@@ -54,7 +54,7 @@
     <!-- Wind/Temp Data Display -->
     <hr>
     <div id="wind-temp-data">
-      <h2>Wind Speed and Wind Direction  Data</h2>
+      <h2>Wind Speed and Wind Direction Data</h2>
       {% if wind_temp_data %}
       <table class="table table-striped">
         <thead>
@@ -83,6 +83,78 @@
       <p>No data available.</p>
       {% endif %}
     </div>
+    <!-- Airport Selection -->
+    <div class="card mb-3">
+      <div class="card-header">
+        Select Airport:
+      </div>
+      <div class="card-body">
+        <form method="get" action="{{ url_for('dashboard') }}">
+          <div class="form-group">
+            <select id="airport" name="airport" class="form-control">
+              <option value="seatac" {% if selected_airport == 'seatac' %}selected{% endif %}>SeaTac</option>
+              <option value="white_center" {% if selected_airport == 'white_center' %}selected{% endif %}>Boeing Field</option>
+              <option value="spokane" {% if selected_airport == 'spokane' %}selected{% endif %}>Spokane</option>
+              <option value="pullman" {% if selected_airport == 'pullman' %}selected{% endif %}>Pullman</option>
+	 <!-- Add more options for other airports if needed -->
+            </select>
+          </div>
+          <input type="hidden" name="get_airport_data" value="1">
+          <button type="submit" class="btn btn-primary">Get Data</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Airport Data Display -->
+    <div class="card mb-3">
+      <div class="card-header">
+        Airport Data
+      </div>
+      <div class="card-body" id="airport-data-section">
+        {% if airport_data %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Country</th>
+              <th scope="col">Latitude</th>
+              <th scope="col">Longitude</th>
+              <th scope="col">Wind Speed</th>
+              <th scope="col">Wind Direction</th>
+              <th scope="col">Temperature</th>
+              <th scope="col">Feels Like</th>
+              <th scope="col">Pressure</th>
+              <th scope="col">Humidity</th>
+              <th scope="col">Visibility</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in airport_data %}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.country }}</td>
+              <td>{{ item.lat }}</td>
+              <td>{{ item.lon }}</td>
+              <td>{{ item.speed }}</td>
+              <td>{{ item.deg }}</td>
+              <td>{{ item.temp }}</td>
+              <td>{{ item.feels_like }}</td>
+              <td>{{ item.pressure }}</td>
+              <td>{{ item.humidity }}</td>
+              <td>{{ item.visibility }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <button id="hide-airport-data" class="btn btn-secondary">Hide Data</button>
+        {% else %}
+        <p>No airport data available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
     <!-- METAR Selection -->
     <div class="card mb-3">
@@ -96,7 +168,7 @@
           <input type="hidden" name="get_metar" value="1">
           <button type="submit" class="btn btn-primary" id="submit-button">Select</button>
         </form>
-       </div>
+      </div>
     </div>
 
     <!-- METAR Data Display -->
@@ -136,9 +208,8 @@
         {% endif %}
       </div>
     </div>
-  </div>
-</section>
 
+</section>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Hide Wind/Temp Data on button click
@@ -158,13 +229,27 @@
       });
     }
 
+    // Hide Airport Data on button click
+    const hideAirportButton = document.getElementById('hide-airport-data');
+    const airportDataSection = document.getElementById('airport-data-section');
+    if (hideAirportButton && airportDataSection) {
+      hideAirportButton.addEventListener('click', function() {
+        airportDataSection.style.display = 'none';
+      });
+    }
+
     // Initial state: Hide the METAR data section if there's no table inside
     if (metarDataSection && !metarDataSection.querySelector('table')) {
       metarDataSection.style.display = 'none';
     }
+
+    // Initial state: Hide the airport data section if there's no table inside
+    if (airportDataSection && !airportDataSection.querySelector('table')) {
+      airportDataSection.style.display = 'none';
+    }
   });
 </script>
-</section>
+
 </main>
 {% endblock content %}
  <!-- ======= Footer ===== -->
