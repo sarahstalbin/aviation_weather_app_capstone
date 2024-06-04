@@ -6,6 +6,7 @@ from forms import LoginForm, UpdateEmailForm, RegisterForm, DeleteAccountForm, C
 from forms import LoginForm, RegisterForm
 from api_sfo import get_sfo, get_hawaii, get_all, get_alaska, get_other_pac, get_south_central, get_north_central, get_rocky_mountain, get_south_east, get_north_east
 from api_metars import get_metar
+from api_airports import seatac, white_center
 from plot_data import plotting
 from flask_login import login_user, logout_user, login_required, current_user
 from models import db, login_manager, UserModel, load_user
@@ -47,8 +48,23 @@ def dashboard():
     level = request.args.get('level', 'low')
     get_metar_flag = request.args.get('get_metar', None)
     get_wind_flag = request.args.get('get_wind', None)
-#    print(region,fcst,level)
+    get_airport_data_flag = request.args.get('get_airport_data', None)
+    
+    airport_data = None  # Initialize airport_data here
+    
+    if get_airport_data_flag:
+        selected_airport = request.args.get('airport')
+        if selected_airport == 'seatac':
+            airport_data = seatac()  # Call the function to fetch data for SeaTac
+        elif selected_airport == 'white_center':
+            airport_data = white_center()  # Call the function to fetch data for White Center
+        # Add more conditions for other airports if needed
+        else:
+            airport_data = None  # Invalid selection
+    
     app.logger.info(f'Region: {region}, Forecast: {fcst}, Level: {level}')
+    
+    wind_temp_data = []
     if get_wind_flag:
         if region == 'sfo':
             wind_temp_data = get_sfo(region=region, level=level, fcst=fcst)
@@ -70,15 +86,12 @@ def dashboard():
             wind_temp_data = get_south_central(region=region, level=level, fcst=fcst)
         elif region == 'slc':
             wind_temp_data = get_rocky_mountain(region=region, level=level, fcst=fcst)
-
         else:
             pass
-    else:
-        wind_temp_data= []
+    
     metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z") if get_metar_flag else None
     
-    return render_template('dashboard.html',wind_temp_data = wind_temp_data, metar_data = metar_data,  region=region, fcst=fcst, level = level)
-
+    return render_template('dashboard.html', wind_temp_data=wind_temp_data, metar_data=metar_data, airport_data=airport_data, region=region, fcst=fcst, level=level)
 
 @app.route('/map')
 def map():

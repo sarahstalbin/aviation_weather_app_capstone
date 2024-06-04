@@ -9,6 +9,7 @@ COPY app.py /usr/local/bin/app.py
 COPY assets /usr/local/bin/static
 COPY api_sfo.py /usr/local/bin/api_sfo.py
 COPY api_metars.py /usr/local/bin/api_metars.py
+COPY api_airports.py /usr/local/bin/api_airports.py
 COPY plot_data.py /usr/local/bin/plot_data.py
 COPY future_data.py /usr/local/bin/future_data.py
 COPY models.py /usr/local/bin/models.py

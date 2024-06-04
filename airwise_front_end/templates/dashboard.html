@@ -22,8 +22,30 @@
             </div>
         </div>
     </section><!-- End Breadcrumbs -->
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem; /* Adjust the gap between cards */
+        }
+
+        .card {
+            flex: 1; /* Ensures each card takes up equal space */
+            min-width: 300px; /* Minimum width to prevent cards from being too small */
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body form {
+            flex: 1;
+        }
+    </style>
 <section class="inner-page">
   <div class="container">
+   <div class="card-container">
     <!-- Wind/Temp Selection -->
     <div class="card mb-3">
       <div class="card-header">
@@ -50,11 +72,11 @@
         </form>
       </div>
     </div>
-
+  
     <!-- Wind/Temp Data Display -->
     <hr>
     <div id="wind-temp-data">
-      <h2>Wind Speed and Wind Direction  Data</h2>
+      <h2>Wind Speed and Wind Direction Data</h2>
       {% if wind_temp_data %}
       <table class="table table-striped">
         <thead>
@@ -83,6 +105,96 @@
       <p>No data available.</p>
       {% endif %}
     </div>
+    <!-- Airport Selection -->
+    <div class="card mb-3">
+      <div class="card-header">
+        Select Airport:
+      </div>
+      <div class="card-body">
+        <form method="get" action="{{ url_for('dashboard') }}">
+          <div class="form-group">
+            <select id="airport" name="airport" class="form-control">
+              <option value="seatac" {% if selected_airport == 'seatac' %}selected{% endif %}>SeaTac</option>
+              <option value="white_center" {% if selected_airport == 'white_center' %}selected{% endif %}>Boeing Field</option>
+              <option value="spokane" {% if selected_airport == 'spokane' %}selected{% endif %}>Spokane</option>
+              <option value="pullman" {% if selected_airport == 'pullman' %}selected{% endif %}>Pullman</option>
+	 <!-- Add more options for other airports if needed -->
+            </select>
+          </div>
+          <input type="hidden" name="get_airport_data" value="1">
+          <button type="submit" class="btn btn-primary">Get Data</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Airport Data Display -->
+    <div class="card mb-3">
+      <div class="card-header">
+        Airport Data
+      </div>
+      <div class="card-body" id="airport-data-section">
+        {% if airport_data %}
+        <table class="table table-striped">
+          <tbody>
+        {% for item in airport_data %}
+        <tr>
+          <th scope="row">ID</th>
+          <td>{{ item.id }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Name</th>
+          <td>{{ item.name }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Country</th>
+          <td>{{ item.country }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Latitude</th>
+          <td>{{ item.lat }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Longitude</th>
+          <td>{{ item.lon }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Wind Speed</th>
+          <td>{{ item.speed }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Wind Direction</th>
+          <td>{{ item.deg }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Temperature</th>
+          <td>{{ item.temp }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Feels Like</th>
+          <td>{{ item.feels_like }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Pressure</th>
+          <td>{{ item.pressure }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Humidity</th>
+          <td>{{ item.humidity }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Visibility</th>
+          <td>{{ item.visibility }}</td>
+        </tr>
+        {% endfor %}
+         </tbody>
+        </table>
+        <button id="hide-airport-data" class="btn btn-secondary">Hide Data</button>
+        {% else %}
+        <p>No airport data available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
     <!-- METAR Selection -->
     <div class="card mb-3">
@@ -96,7 +208,7 @@
           <input type="hidden" name="get_metar" value="1">
           <button type="submit" class="btn btn-primary" id="submit-button">Select</button>
         </form>
-       </div>
+      </div>
     </div>
 
     <!-- METAR Data Display -->
@@ -137,8 +249,8 @@
       </div>
     </div>
   </div>
-</section>
 
+</section>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Hide Wind/Temp Data on button click
@@ -158,14 +270,27 @@
       });
     }
 
+    // Hide Airport Data on button click
+    const hideAirportButton = document.getElementById('hide-airport-data');
+    const airportDataSection = document.getElementById('airport-data-section');
+    if (hideAirportButton && airportDataSection) {
+      hideAirportButton.addEventListener('click', function() {
+        airportDataSection.style.display = 'none';
+      });
+    }
+
     // Initial state: Hide the METAR data section if there's no table inside
     if (metarDataSection && !metarDataSection.querySelector('table')) {
       metarDataSection.style.display = 'none';
     }
+
+    // Initial state: Hide the airport data section if there's no table inside
+    if (airportDataSection && !airportDataSection.querySelector('table')) {
+      airportDataSection.style.display = 'none';
+    }
   });
 </script>
 
-</section>
 </main>
 {% endblock content %}
  <!-- ======= Footer ===== -->
