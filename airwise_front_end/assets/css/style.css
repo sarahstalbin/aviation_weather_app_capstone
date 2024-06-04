@@ -787,48 +787,13 @@ section {
 # Form Container
 --------------------------------------------------------------*/
 
-.form-container {
-    max-width: 600px;
-    margin: auto; 
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-}
-
-.form-container p {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.form-container label {
-    font-weight: bold;
-}
-
-.form-container input[type="text"],
-.form-container input[type="email"],
-.form-container input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-container input[type="submit"] {
-    background-color: rgba(56, 64, 70, 0.7);
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.form-container input[type="submit"]:hover {
-    background-color: rgba(56, 64, 70, 0.7);
-}
-
-.error-message {
-    color: red;
+.contact .button-format button[type=submit] {
+  background: #3498db;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 4px;
 }
 
 /*--------------------------------------------------------------
