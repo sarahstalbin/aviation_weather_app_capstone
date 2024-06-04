@@ -7,19 +7,21 @@
     <section class="breadcrumbs">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Weather Map</h2>
+                <h2>Interactive Timelapse Weather Map</h2>
             </div>
         </div>
-    </section><!-- End Breadcrumbs -->
+    <!-- </section>End Breadcrumbs -->
 
     <html>
         <head>
-            <title>Interactive Timelapse Map</title>
+            <body>
+            <!-- <title>Interactive Timelapse Map</title> -->
             <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
             <style>
                 #map {
                     height: 600px;
-                    width: 100%;
+                    width: 95%;
+                    margin: 0 auto;
                     position: relative; /* Ensure position context for absolute positioning */
                 }
                 .custom-overlay {
@@ -58,22 +60,23 @@
         </head>
         <body>
             <div class="container d-flex align-items">
-                <ul></ul>
+                <nav id="navbar" class="navbar order-last order-lg-0"> <!-- makes it hide the dropdown-->
+                <ul>
             <!-- <nav id="navbar" class="navbar order-last order-lg-0"> -->
              <!-- <div class="controls"> -->
-                <a onclick="updateDataField('temperature')">Temperature</a>
-                <span class="space-text">|</span>
-                <a onclick="updateDataField('precipitationIntensity')">Precipitation Intensity</a>
-                <span class="space-text">|</span>
-                <a onclick="updateDataField('windSpeed')">Wind Speed</a>
-                <span class="space-text">|</span>
-                <a onclick="updateDataField('windDirection')">Wind Direction</a>
-                <span class="space-text">|</span>
-                <a onclick="updateDataField('visibility')">Visibility</a>
-                <span class="space-text">|</span>
-                <a onclick="startTimelapse()">Start Timelapse</a>
-                <span class="space-text">|</span>
-                <a onclick="stopTimelapse()">Stop Timelapse</a>
+                <li class="dropdown"><a href="#"><span>Weather Type</span><i class="bi bi-chevron-down"></i></a> <!--li gives button appearance-->
+                <ul>    <!-- does the dropdown-->
+                </li>
+                       <li><a class="dropdown-item" onclick="updateDataField('temperature')">Temperature</a></li>
+                        <a class="dropdown-item" onclick="updateDataField('precipitationIntensity')">Precipitation Intensity</a>
+                        <a class="dropdown-item" onclick="updateDataField('windSpeed')">Wind Speed</a>
+                        <a class="dropdown-item" onclick="updateDataField('windDirection')">Wind Direction</a>
+                         <a class="dropdown-item" onclick="updateDataField('visibility')">Visibility</a>
+                        </ul>
+                    </li>
+                    <!-- </div> causes the buttons to go to the next line-->
+                <a class="dropdown-item" onclick="startTimelapse()">Start Timelapse</a>
+                <a class="dropdown-item" onclick="stopTimelapse()">Stop Timelapse</a>
             </div>
             <div id="map"></div>
             <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
@@ -84,7 +87,7 @@
             <script>
                 let map;
                 let imageMapType;
-                let API_KEY = 'vDeo4aaSWkSP1V1LTcDmliTfqBKVsfzI';
+                let API_KEY = '0ZQsTAdc0eMA81LFBmafbeWDbFHhF4ud';
                 let DATA_FIELD = 'precipitationIntensity';
                 let TIMESTAMP = (new Date()).toISOString();
                 let timelapseInterval;
