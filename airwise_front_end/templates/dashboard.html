@@ -4,7 +4,6 @@
 
 {% block hero %}
 <!-- override hero section -->
-
 {% endblock hero %}
 
 {% block content %}
@@ -22,6 +21,7 @@
             </div>
         </div>
     </section><!-- End Breadcrumbs -->
+
     <style>
         .card-container {
             display: flex;
@@ -43,220 +43,219 @@
             flex: 1;
         }
     </style>
-<section class="inner-page">
-  <div class="container">
-   <div class="card-container">
-    <!-- Wind/Temp Selection -->
-    <div class="card mb-3">
-      <div class="card-header">
-        Select Region For Wind Speed/Direction:
-      </div>
-      <div class="card-body">
-        <form method="get" action="{{ url_for('dashboard') }}">
-          <div class="form-group">
-            <select id="region" name="region" class="form-control">
-              <option value="sfo" {% if region == 'sfo' %}selected{% endif %}>Pacific Coast</option>
-              <option value="other_pac" {% if region == 'other_pac' %}selected{% endif %}>Western Pacific</option>
-              <option value="hawaii" {% if region == 'hawaii' %}selected{% endif %}>Hawaii</option>
-              <option value="alaska" {% if region == 'alaska' %}selected{% endif %}>Alaska</option>
-              <option value="slc" {% if region == 'slc' %}selected{% endif %}>Rocky Mountain</option>
-              <option value="bos" {% if region == 'bos' %}selected{% endif %}>Northeast</option>
-              <option value="mia" {% if region == 'mia' %}selected{% endif %}>Southeast</option>
-              <option value="chi" {% if region == 'chi' %}selected{% endif %}>North Central</option>
-              <option value="dfw" {% if region == 'dfw' %}selected{% endif %}>South Central</option>
-              <option value="all" {% if region == 'all' %}selected{% endif %}>All Regions</option>
-            </select>
-          </div>
-          <input type="hidden" name="get_wind" value="1">
-          <button type="submit" class="btn btn-primary">Get Data</button>
-        </form>
-      </div>
-    </div>
-  
-    <!-- Wind/Temp Data Display -->
-  <div class="container">
-   <div id="wind-temp-data" class="card mb-3">
-    <div class="card-header">
-      Wind Speed and Wind Direction Data
-    </div>
-    <hr> <!-- Added <hr> part -->
-    <div class="card-body">
-      {% if wind_temp_data %}
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Latitude</th>
-            <th scope="col">Longitude</th>
-            <th scope="col">Wind Speed (kt)</th>
-            <th scope="col">Wind Direction (°)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in wind_temp_data %}
-          <tr>
-            <td>{{ item.id }}</td>
-            <td>{{ item.lat }}</td>
-            <td>{{ item.lon }}</td>
-            <td>{{ item.spd }}</td>
-            <td>{{ item.dir }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <button id="hide-wind-temp-data" class="btn btn-secondary">Hide Data</button>
-      {% else %}
-      <p></p>
-      {% endif %}
-    </div>
- </div>
-</div>
-    <!-- Airport Selection -->
-    <div class="card mb-3">
-      <div class="card-header">
-        Select Airport:
-      </div>
-      <div class="card-body">
-        <form method="get" action="{{ url_for('dashboard') }}">
-          <div class="form-group">
-            <select id="airport" name="airport" class="form-control">
-              <option value="seatac" {% if selected_airport == 'seatac' %}selected{% endif %}>SeaTac</option>
-              <option value="white_center" {% if selected_airport == 'white_center' %}selected{% endif %}>Boeing Field</option>
-              <option value="spokane" {% if selected_airport == 'spokane' %}selected{% endif %}>Spokane</option>
-              <option value="pullman" {% if selected_airport == 'pullman' %}selected{% endif %}>Pullman</option>
-	 <!-- Add more options for other airports if needed -->
-            </select>
-          </div>
-          <input type="hidden" name="get_airport_data" value="1">
-          <button type="submit" class="btn btn-primary">Get Data</button>
-        </form>
-      </div>
-    </div>
 
-    <!-- Airport Data Display -->
-    <div class="card mb-3">
-      <div class="card-header">
-        Airport Data
-      </div>
-      <div class="card-body" id="airport-data-section">
-        {% if airport_data %}
-        <table class="table table-striped">
-          <tbody>
-        {% for item in airport_data %}
-        <tr>
-          <th scope="row">ID</th>
-          <td>{{ item.id }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Name</th>
-          <td>{{ item.name }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Country</th>
-          <td>{{ item.country }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Latitude</th>
-          <td>{{ item.lat }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Longitude</th>
-          <td>{{ item.lon }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Wind Speed</th>
-          <td>{{ item.speed }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Wind Direction</th>
-          <td>{{ item.deg }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Temperature</th>
-          <td>{{ item.temp }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Feels Like</th>
-          <td>{{ item.feels_like }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Pressure</th>
-          <td>{{ item.pressure }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Humidity</th>
-          <td>{{ item.humidity }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Visibility</th>
-          <td>{{ item.visibility }}</td>
-        </tr>
-        {% endfor %}
-         </tbody>
-        </table>
-        <button id="hide-airport-data" class="btn btn-secondary">Hide Data</button>
-        {% else %}
-        <p>No airport data available.</p>
-        {% endif %}
-      </div>
-    </div>
-  </div>
+    <section class="inner-page">
+        <div class="container">
+            <!-- Flex Container for Cards -->
+            <div class="card-container">
+                <!-- Wind/Temp Selection -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Select Region For Wind Speed/Direction:
+                    </div>
+                    <div class="card-body">
+                        <form method="get" action="{{ url_for('dashboard') }}">
+                            <div class="form-group">
+                                <select id="region" name="region" class="form-control">
+                                    <option value="sfo" {% if region == 'sfo' %}selected{% endif %}>Pacific Coast</option>
+                                    <option value="other_pac" {% if region == 'other_pac' %}selected{% endif %}>Western Pacific</option>
+                                    <option value="hawaii" {% if region == 'hawaii' %}selected{% endif %}>Hawaii</option>
+                                    <option value="alaska" {% if region == 'alaska' %}selected{% endif %}>Alaska</option>
+                                    <option value="slc" {% if region == 'slc' %}selected{% endif %}>Rocky Mountain</option>
+                                    <option value="bos" {% if region == 'bos' %}selected{% endif %}>Northeast</option>
+                                    <option value="mia" {% if region == 'mia' %}selected{% endif %}>Southeast</option>
+                                    <option value="chi" {% if region == 'chi' %}selected{% endif %}>North Central</option>
+                                    <option value="dfw" {% if region == 'dfw' %}selected{% endif %}>South Central</option>
+                                    <option value="all" {% if region == 'all' %}selected{% endif %}>All Regions</option>
+                                </select>
+                            </div>
+                            <input type="hidden" name="get_wind" value="1">
+                            <button type="submit" class="btn btn-primary">Get Data</button>
+                        </form>
+                    </div>
+                </div>
 
-    <!-- METAR Selection -->
-    <div class="card mb-3">
-      <div class="card-header">
-        Select For METARs:
-      </div>
-      <div class="card-body">
-        <form method="get" action="{{ url_for('dashboard') }}">
-          <div class="form-group">
-          </div>
-          <input type="hidden" name="get_metar" value="1">
-          <button type="submit" class="btn btn-primary" id="submit-button">Select</button>
-        </form>
-      </div>
-    </div>
+                <!-- Airport Selection -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Select Airport:
+                    </div>
+                    <div class="card-body">
+                        <form method="get" action="{{ url_for('dashboard') }}">
+                            <div class="form-group">
+                                <select id="airport" name="airport" class="form-control">
+                                    <option value="seatac" {% if selected_airport == 'seatac' %}selected{% endif %}>SeaTac</option>
+                                    <option value="white_center" {% if selected_airport == 'white_center' %}selected{% endif %}>Boeing Field</option>
+                                    <option value="spokane" {% if selected_airport == 'spokane' %}selected{% endif %}>Spokane</option>
+                                    <option value="pullman" {% if selected_airport == 'pullman' %}selected{% endif %}>Pullman</option>
+                                    <!-- Add more options for other airports if needed -->
+                                </select>
+                            </div>
+                            <input type="hidden" name="get_airport_data" value="1">
+                            <button type="submit" class="btn btn-primary">Get Data</button>
+                        </form>
+                    </div>
+                </div>
 
-    <!-- METAR Data Display -->
-    <div class="card mb-3">
-      <div class="card-header">
-        METAR Data
-      </div>
-      <div class="card-body" id="metar-data-section">
-        {% if metar_data %}
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Station</th>
-              <th scope="col">Temperature</th>
-              <th scope="col">Dew Point</th>
-              <th scope="col">Altimeter</th>
-              <th scope="col">Quality Control Field</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in metar_data %}
-            <tr>
-              <td>{{ item.metar_id }}</td>
-              <td>{{ item.icaoId }}</td>
-              <td>{{ item.temp }}</td>
-              <td>{{ item.dewp }}</td>
-              <td>{{ item.altim }}</td>
-              <td>{{ item.qcField }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <button id="hide-metar-data" class="btn btn-secondary">Hide Data</button>
-        {% else %}
-        <p>No METAR data available yet.</p>
-        {% endif %}
-      </div>
-    </div>
-  </div>
+                <!-- METAR Selection -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Select For METARs:
+                    </div>
+                    <div class="card-body">
+                        <form method="get" action="{{ url_for('dashboard') }}">
+                            <div class="form-group">
+                                <!-- Any additional inputs if needed -->
+                            </div>
+                            <input type="hidden" name="get_metar" value="1">
+                            <button type="submit" class="btn btn-primary">Select</button>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- Close card-container here -->
 
-</section>
+            <!-- Wind/Temp Data Display -->
+            <hr>
+            <div id="wind-temp-data">
+                <h2>Wind Speed and Wind Direction Data</h2>
+                {% if wind_temp_data %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Latitude</th>
+                            <th scope="col">Longitude</th>
+                            <th scope="col">Wind Speed (kt)</th>
+                            <th scope="col">Wind Direction (°)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in wind_temp_data %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.lat }}</td>
+                            <td>{{ item.lon }}</td>
+                            <td>{{ item.spd }}</td>
+                            <td>{{ item.dir }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button id="hide-wind-temp-data" class="btn btn-secondary">Hide Data</button>
+                {% else %}
+                <p></p>
+                {% endif %}
+            </div>
+
+            <!-- Airport Data Display -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    Airport Data
+                </div>
+                <div class="card-body" id="airport-data-section">
+                    {% if airport_data %}
+                    <table class="table table-striped">
+                        <tbody>
+                        {% for item in airport_data %}
+                        <tr>
+                            <th scope="row">ID</th>
+                            <td>{{ item.id }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td>{{ item.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Country</th>
+                            <td>{{ item.country }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Latitude</th>
+                            <td>{{ item.lat }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Longitude</th>
+                            <td>{{ item.lon }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wind Speed</th>
+                            <td>{{ item.speed }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wind Direction</th>
+                            <td>{{ item.deg }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Temperature</th>
+                            <td>{{ item.temp }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Feels Like</th>
+                            <td>{{ item.feels_like }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Pressure</th>
+                            <td>{{ item.pressure }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Humidity</th>
+                            <td>{{ item.humidity }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Visibility</th>
+                            <td>{{ item.visibility }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <button id="hide-airport-data" class="btn btn-secondary">Hide Data</button>
+                    {% else %}
+                    <p>No airport data available.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- METAR Data Display -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    METAR Data
+                </div>
+                <div class="card-body" id="metar-data-section">
+                    {% if metar_data %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Station</th>
+                                <th scope="col">Temperature</th>
+                                <th scope="col">Dew Point</th>
+                                <th scope="col">Altimeter</th>
+                                <th scope="col">Quality Control Field</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in metar_data %}
+                            <tr>
+                                <td>{{ item.metar_id }}</td>
+                                <td>{{ item.icaoId }}</td>
+                                <td>{{ item.temp }}</td>
+                                <td>{{ item.dewp }}</td>
+                                <td>{{ item.altim }}</td>
+                                <td>{{ item.qcField }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button id="hide-metar-data" class="btn btn-secondary">Hide Data</button>
+                    {% else %}
+                    <p>No METAR data available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Hide Wind/Temp Data on button click
@@ -297,8 +296,8 @@
   });
 </script>
 
-</main>
 {% endblock content %}
+
  <!-- ======= Footer ===== -->
 {% block footer %}
 <footer id="footer">
