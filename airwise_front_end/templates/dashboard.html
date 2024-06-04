@@ -74,9 +74,13 @@
     </div>
   
     <!-- Wind/Temp Data Display -->
-    <hr>
-    <div id="wind-temp-data">
-      <h2>Wind Speed and Wind Direction Data</h2>
+  <div class="container">
+   <div id="wind-temp-data" class="card mb-3">
+    <div class="card-header">
+      Wind Speed and Wind Direction Data
+    </div>
+    <hr> <!-- Added <hr> part -->
+    <div class="card-body">
       {% if wind_temp_data %}
       <table class="table table-striped">
         <thead>
@@ -102,9 +106,11 @@
       </table>
       <button id="hide-wind-temp-data" class="btn btn-secondary">Hide Data</button>
       {% else %}
-      <p>No data available.</p>
+      <p></p>
       {% endif %}
     </div>
+ </div>
+</div>
     <!-- Airport Selection -->
     <div class="card mb-3">
       <div class="card-header">
