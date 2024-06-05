@@ -34,7 +34,7 @@ def seatac():
     print(wind_temp_data)
     return wind_temp_data
 
-# seatac()
+
 
 def white_center():
     url = "https://api.openweathermap.org/data/2.5/weather?lat=47.52997&lon=-122.30194&appid=0827de6f708a7f3fc42e0ea4290eb9c9"
@@ -65,8 +65,6 @@ def white_center():
     }
     for items in weather_data['weather']:
         wind_temp['weather_desc'] = items['icon']
-    wind_temp_data.append(wind_temp)
-
     wind_temp_data.append(wind_temp)
 
     print(wind_temp_data)
@@ -109,7 +107,7 @@ def spokane():
     return wind_temp_data
 
 #    print(response.text)
-# spokane()
+
 
 
 def pullman():
@@ -144,7 +142,12 @@ def pullman():
         wind_temp['weather_desc'] = items['icon']
     wind_temp_data.append(wind_temp)
 
-    # print(wind_temp_data)
+    print(wind_temp_data)
     return wind_temp_data
 
-# pullman()
+
+if __name__ == "__main__":
+    seatac()
+    white_center()
+    spokane()
+    pullman()
