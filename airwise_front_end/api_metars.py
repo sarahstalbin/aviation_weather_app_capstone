@@ -70,24 +70,24 @@ def get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
     return None
-
+if "__name__" == "__main__":
 # Example usage
-metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z")
-if metar_data:
-    for metar in metar_data:
-        print(f"METAR ID: {metar['metar_id']}, ICAO ID: {metar['icaoId']}, "
-              f"Receipt Time: {metar['receiptTime']}, Observation Time: {metar['obsTime']}, "
-              f"Report Time: {metar['reportTime']}, Temp: {metar['temp']}C, "
-              f"Dew Point: {metar['dewp']}C, Wind Direction: {metar['wdir']} degrees, "
-              f"Wind Speed: {metar['wspd']} kt, Visibility: {metar['visibility']} statute miles, "
-              f"Altimeter: {metar['altim']} inHg, Sea Level Pressure: {metar['slp']} mb, "
-              f"Quality Control Field: {metar['qcField']}, Weather String: {metar['wxString']}, "
-              f"Pressure Tendency: {metar['presTend']}, Max Temp: {metar['maxT']}C, Min Temp: {metar['minT']}C, "
-              f"Max Temp (24hr): {metar['maxT24']}C, Min Temp (24hr): {metar['minT24']}C, "
-              f"Precipitation: {metar['precip']} in, Precip (3hr): {metar['pcp3hr']} in, "
-              f"Precip (6hr): {metar['pcp6hr']} in, Precip (24hr): {metar['pcp24hr']} in, "
-              f"METAR Type: {metar['metarType']}, Raw Observation: {metar['raw0b']}, "
-              f"Name: {metar['name']}, Elevation: {metar['elev']} ft, Prior: {metar['prior']}, "
-              f"Most Recent: {metar['mostRecent']}, Cover: {metar['cover']}, Base: {metar['base']} ft")
-else:
-    print("No data available")
+    metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z")
+    if metar_data:
+        for metar in metar_data:
+            print(f"METAR ID: {metar['metar_id']}, ICAO ID: {metar['icaoId']}, "
+                f"Receipt Time: {metar['receiptTime']}, Observation Time: {metar['obsTime']}, "
+                f"Report Time: {metar['reportTime']}, Temp: {metar['temp']}C, "
+                f"Dew Point: {metar['dewp']}C, Wind Direction: {metar['wdir']} degrees, "
+                f"Wind Speed: {metar['wspd']} kt, Visibility: {metar['visibility']} statute miles, "
+                f"Altimeter: {metar['altim']} inHg, Sea Level Pressure: {metar['slp']} mb, "
+                f"Quality Control Field: {metar['qcField']}, Weather String: {metar['wxString']}, "
+                f"Pressure Tendency: {metar['presTend']}, Max Temp: {metar['maxT']}C, Min Temp: {metar['minT']}C, "
+                f"Max Temp (24hr): {metar['maxT24']}C, Min Temp (24hr): {metar['minT24']}C, "
+                f"Precipitation: {metar['precip']} in, Precip (3hr): {metar['pcp3hr']} in, "
+                f"Precip (6hr): {metar['pcp6hr']} in, Precip (24hr): {metar['pcp24hr']} in, "
+                f"METAR Type: {metar['metarType']}, Raw Observation: {metar['raw0b']}, "
+                f"Name: {metar['name']}, Elevation: {metar['elev']} ft, Prior: {metar['prior']}, "
+                f"Most Recent: {metar['mostRecent']}, Cover: {metar['cover']}, Base: {metar['base']} ft")
+    else:
+        print("No data available")
