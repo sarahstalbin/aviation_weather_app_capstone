@@ -24,9 +24,11 @@ def seatac():
         "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
-        "visibility": weather_data['visibility']
+        "visibility": weather_data['visibility'],
+        "weather_desc": []
     }
-
+    for items in weather_data['weather']:
+        wind_temp['weather_desc'] = items['icon']
     wind_temp_data.append(wind_temp)
 
     print(wind_temp_data)
@@ -58,8 +60,12 @@ def white_center():
         "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
-        "visibility": weather_data['visibility']
+        "visibility": weather_data['visibility'],
+        "weather_desc": []
     }
+    for items in weather_data['weather']:
+        wind_temp['weather_desc'] = items['icon']
+    wind_temp_data.append(wind_temp)
 
     wind_temp_data.append(wind_temp)
 
@@ -92,8 +98,11 @@ def spokane():
         "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
-        "visibility": weather_data['visibility']
+        "visibility": weather_data['visibility'],
+        "weather_desc": []
     }
+    for items in weather_data['weather']:
+        wind_temp['weather_desc'] = items['icon']
     wind_temp_data.append(wind_temp)
 
     print(wind_temp_data)
@@ -108,6 +117,7 @@ def pullman():
    # url = "https://api.openweathermap.org/data/2.5/weather?lat=47.90732&lon=-122.28209,&appid=0827de6f708a7f3fc42e0ea4290eb9c9"
     response = requests.get(url)
     weather_data = response.json()  # Parse the JSON response
+    # print(weather_data)
 
     wind_temp_data = []
     temperature = int(round((weather_data['main']['temp'] - 273.15) * (9/5) + 32))
@@ -127,11 +137,14 @@ def pullman():
         "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
-        "visibility": weather_data['visibility']
+        "visibility": weather_data['visibility'],
+        "weather_desc": []
     }
+    for items in weather_data['weather']:
+        wind_temp['weather_desc'] = items['icon']
     wind_temp_data.append(wind_temp)
 
-    print(wind_temp_data)
+    # print(wind_temp_data)
     return wind_temp_data
 
 pullman()
