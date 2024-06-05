@@ -17,7 +17,7 @@
                 {% if airport_data %}
                     {% for item in airport_data %}
                         <img src="https://openweathermap.org/img/wn/{{ item.weather_desc }}@2x.png" alt="Weather Icon" class="center-image">
-                        { %break% }
+                        {% break %}
                     {% endfor %}
                 {% endif %}
             </div>
