@@ -6,10 +6,9 @@ def seatac():
     url = "https://api.openweathermap.org/data/2.5/weather?lat=47.443546&lon=-122.301659&appid=0827de6f708a7f3fc42e0ea4290eb9c9"
     response = requests.get(url)
     weather_data = response.json()  # Parse the JSON response
-
     wind_temp_data = []
-    temp_celsius = round(weather_data['main']['temp'] - 273.15, 2)
-    feels_like_celsius = round(weather_data['main']['feels_like'] - 273.15, 2)
+    temperature = int(round((weather_data['main']['temp'] - 273.15) * (9/5) + 32))
+    feels_like_temp = int(round((weather_data['main']['feels_like'] - 273.15) * (9/5) + 32))
 
     # Create the wind_temp dictionary with the relevant data
     wind_temp = {
@@ -21,8 +20,8 @@ def seatac():
         "lon": weather_data['coord']['lon'],
         "deg": weather_data['wind']['deg'],
         "speed": weather_data['wind']['speed'],
-        "temp": temp_celsius,
-        "feels_like": feels_like_celsius,
+        "temp": temperature,
+        "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility']
@@ -42,8 +41,8 @@ def white_center():
     weather_data = response.json()  # Parse the JSON response
 
     wind_temp_data = []
-    temp_celsius = round(weather_data['main']['temp'] - 273.15, 2)
-    feels_like_celsius = round(weather_data['main']['feels_like'] - 273.15, 2)
+    temperature = int(round((weather_data['main']['temp'] - 273.15) * (9/5) + 32))
+    feels_like_temp = int(round((weather_data['main']['feels_like'] - 273.15) * (9/5) + 32))
 
     # Create the wind_temp dictionary with the relevant data
     wind_temp = {
@@ -55,8 +54,8 @@ def white_center():
         "lon": weather_data['coord']['lon'],
         "deg": weather_data['wind']['deg'],
         "speed": weather_data['wind']['speed'],
-        "temp": temp_celsius,
-        "feels_like": feels_like_celsius,
+        "temp": temperature,
+        "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility']
@@ -76,8 +75,8 @@ def spokane():
     weather_data = response.json()  # Parse the JSON response
 
     wind_temp_data = []
-    temp_celsius = round(weather_data['main']['temp'] - 273.15, 2)
-    feels_like_celsius = round(weather_data['main']['feels_like'] - 273.15, 2)
+    temperature = int(round((weather_data['main']['temp'] - 273.15) * (9/5) + 32))
+    feels_like_temp = int(round((weather_data['main']['feels_like'] - 273.15) * (9/5) + 32))
 
     # Create the wind_temp dictionary with the relevant data
     wind_temp = {
@@ -89,8 +88,8 @@ def spokane():
         "lon": weather_data['coord']['lon'],
         "deg": weather_data['wind']['deg'],
         "speed": weather_data['wind']['speed'],
-        "temp": temp_celsius,
-        "feels_like": feels_like_celsius,
+        "temp": temperature,
+        "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility']
@@ -111,8 +110,8 @@ def pullman():
     weather_data = response.json()  # Parse the JSON response
 
     wind_temp_data = []
-    temp_celsius = round(weather_data['main']['temp'] - 273.15, 2)
-    feels_like_celsius = round(weather_data['main']['feels_like'] - 273.15, 2)
+    temperature = int(round((weather_data['main']['temp'] - 273.15) * (9/5) + 32))
+    feels_like_temp = int(round((weather_data['main']['feels_like'] - 273.15) * (9/5) + 32))
 
     # Create the wind_temp dictionary with the relevant data
     wind_temp = {
@@ -124,8 +123,8 @@ def pullman():
         "lon": weather_data['coord']['lon'],
         "deg": weather_data['wind']['deg'],
         "speed": weather_data['wind']['speed'],
-        "temp": temp_celsius,
-        "feels_like": feels_like_celsius,
+        "temp": temperature,
+        "feels_like": feels_like_temp,
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility']
