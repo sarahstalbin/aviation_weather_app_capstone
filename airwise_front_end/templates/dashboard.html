@@ -16,7 +16,7 @@
                 <h2>Current Weather Conditions</h2>
                 {% if airport_data %}
                     {% for item in airport_data %}
-                        <img src="https://openweathermap.org/img/wn/{{ item.weather_desc }}@2x.png" alt="Weather Icon" class="center-image">
+                        <img src="https://openweathermap.org/img/wn/{{ item.weather_icon }}@2x.png" alt="Weather Icon" class="center-image">
                     {% endfor %}
                 {% endif %}
             </div>
@@ -201,6 +201,10 @@
                             <td>{{ item.lon }}</td>
                         </tr>
                         <tr>
+                            <th scope="row">Weather</th>
+                            <td>{{ item.weather_desc }}</td>
+                        <tr>
+                        <tr>
                             <th scope="row">Wind Speed</th>
                             <td>{{ item.speed }}</td>
                         </tr>
@@ -228,10 +232,6 @@
                             <th scope="row">Visibility</th>
                             <td>{{ item.visibility }}</td>
                         </tr>
-                        <tr>
-                            <th scope="row">Weather</th>
-                            <td>{{ item.weather }}</td>
-                        <tr>
                         {% endfor %}
                         </tbody>
                     </table>
