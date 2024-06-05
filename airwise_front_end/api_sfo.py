@@ -389,49 +389,49 @@ def get_south_east(region="mia", level="low", fcst="06"):
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
     return None
-
-# Example usage
-wind_temp_data = get_sfo(region="sfo", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-
-# Example usage
-wind_temp_data = get_hawaii(region="hawaii", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-
-# Example usage
-wind_temp_data = get_all(region="all", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-# Example usage
-wind_temp_data = get_alaska(region="alaska", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-# Example usage
-wind_temp_data = get_other_pac(region="other_pac", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-
-# Example usage
-wind_temp_data = get_rocky_mountain(region="slc", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-
-# Example usage
-wind_temp_data = get_south_central(region="dfw", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-
-# Example usage
-wind_temp_data = get_north_central(region="chi", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-# Example usage
-wind_temp_data = get_north_east(region="bos", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
-# Example usage
-wind_temp_data = get_south_east(region="mia", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
-if wind_temp_data:
-    print(wind_temp_data)
+if "__name__" == "__main__":
+    # Example usage
+    wind_temp_data = get_sfo(region="sfo", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    
+    # Example usage
+    wind_temp_data = get_hawaii(region="hawaii", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    
+    # Example usage
+    wind_temp_data = get_all(region="all", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    # Example usage
+    wind_temp_data = get_alaska(region="alaska", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    # Example usage
+    wind_temp_data = get_other_pac(region="other_pac", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    
+    # Example usage
+    wind_temp_data = get_rocky_mountain(region="slc", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    
+    # Example usage
+    wind_temp_data = get_south_central(region="dfw", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    
+    # Example usage
+    wind_temp_data = get_north_central(region="chi", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    # Example usage
+    wind_temp_data = get_north_east(region="bos", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
+    # Example usage
+    wind_temp_data = get_south_east(region="mia", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
+    if wind_temp_data:
+        print(wind_temp_data)
