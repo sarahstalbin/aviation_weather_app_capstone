@@ -25,6 +25,7 @@ def plotting(location="Seattle",type='temp', current_state='past'):
     # Create a line chart for temperature
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=dates, y=type_data, mode='lines+markers', name=type))
+
     # fig.add_trace(go.Scatter(x=dates, y=humidity, mode='lines+markers', name='Humidity'))
     # fig.add_trace(go.Scatter(x=dates, y=windspeed, mode='lines+markers', name='precipitaion'))
 
@@ -38,7 +39,8 @@ def plotting(location="Seattle",type='temp', current_state='past'):
         fig.update_yaxes(title_text="Precipitation (mm)")
         top_title = f'{cap_state} Precipitation Data for {location}'
     else:
-        fig.update_yaxes(title_text="Visibility (m)")
+        fig.update_yaxes(title_text="Visibility (miles)")
+        fig.add_trace(go.Scatter(x=dates, y=[3,3,3,3,3,3], mode='lines+markers', name='Warning Levels', line=dict(color='red', width=2)))
         top_title = f'{cap_state} Visibility Data for {location}'
 
     # Customize layout
