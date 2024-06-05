@@ -46,14 +46,16 @@ def dashboard():
     region = request.args.get('region', 'sfo')
     fcst = request.args.get('fcst', '06')
     level = request.args.get('level', 'low')
+    selected_airport = request.args.get('airport')
     get_metar_flag = request.args.get('get_metar', None)
     get_wind_flag = request.args.get('get_wind', None)
     get_airport_data_flag = request.args.get('get_airport_data', None)
     
     airport_data = None  # Initialize airport_data here
-    
+#    print(f"Selected airport: {selected_airport}")
     if get_airport_data_flag:
-        selected_airport = request.args.get('airport')
+        #selected_airport = request.args.get('airport')
+ #       print(f"Fetching data for: {selected_airport}") 
         if selected_airport == 'seatac':
             airport_data = seatac()  # Call the function to fetch data for SeaTac
         elif selected_airport == 'white_center':
@@ -62,7 +64,6 @@ def dashboard():
             airport_data = spokane() 
         elif selected_airport == 'pullman':
             airport_data = pullman() 
-        # Add more conditions for other airports if needed
         else:
             airport_data = None  # Invalid selection
     
@@ -95,7 +96,7 @@ def dashboard():
     
     metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z") if get_metar_flag else None
     
-    return render_template('dashboard.html', wind_temp_data=wind_temp_data, metar_data=metar_data, airport_data=airport_data, region=region, fcst=fcst, level=level)
+    return render_template('dashboard.html', wind_temp_data=wind_temp_data, metar_data=metar_data, airport_data=airport_data,selected_airport = selected_airport, region=region, fcst=fcst, level=level)
 
 @app.route('/map')
 def map():
