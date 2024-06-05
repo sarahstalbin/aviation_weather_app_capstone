@@ -14,6 +14,10 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Current Weather Conditions</h2>
+                {% for item in airport_data %}
+                <img src="https://openweathermap.org/img/wn/{{ item.weather_desc }}@2x.png" alt="Weather Icon" class="center-image">
+                {% endfor %}
+            </div>
                 <ol>
                     <li><a href="home">Home</a></li>
                     <li>Dashboard</li>
@@ -41,6 +45,21 @@
 
         .card-body form {
             flex: 1;
+        }
+
+        .weather-condition {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .center-image {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%);
+            width: 150px; /* Adjust the size as needed */
+            height: auto;
+            z-index: 9999; /* Ensure the image is above other content */
         }
     </style>
 
@@ -145,7 +164,9 @@
                 {% else %}
                 <p></p>
                 {% endif %}
-            </div>
+
+         <!-- Conditionally Display Image in Upper Right Corner --> 
+ 
 
             <!-- Airport Data Display -->
             <div class="card mb-3">
@@ -205,6 +226,10 @@
                             <th scope="row">Visibility</th>
                             <td>{{ item.visibility }}</td>
                         </tr>
+                        <tr>
+                            <th scope="row">Weather</th>
+                            <td>{{ item.weather }}</td>
+                        <tr>
                         {% endfor %}
                         </tbody>
                     </table>
