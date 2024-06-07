@@ -389,7 +389,7 @@ def get_south_east(region="mia", level="low", fcst="06"):
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
     return None
-if "__name__" == "__main__":
+if __name__ == "__main__":
     # Example usage
     wind_temp_data = get_sfo(region="sfo", level="low", fcst="06")  # Fetch wind and temperature data for SFO region
     if wind_temp_data:

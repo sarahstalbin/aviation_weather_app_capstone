@@ -70,7 +70,7 @@ def get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
     return None
-if "__name__" == "__main__":
+if __name__ == "__main__":
 # Example usage
     metar_data = get_metar(ids="@WA", format="json", taf="1", hours="10", bbox="40,-90,45,-85", date="20240531_144001Z")
     if metar_data:
