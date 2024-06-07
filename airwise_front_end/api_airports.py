@@ -25,10 +25,12 @@ def seatac():
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility'],
-        "weather_desc": []
+        "weather_desc": [],
+        "weather_iron" : []
     }
     for items in weather_data['weather']:
-        wind_temp['weather_desc'] = items['icon']
+        wind_temp['weather_desc'] = items['description']
+        wind_temp['weather_icon'] = items['icon']
     wind_temp_data.append(wind_temp)
 
     print(wind_temp_data)
@@ -61,10 +63,12 @@ def white_center():
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility'],
-        "weather_desc": []
+        "weather_desc": [],
+        "weather_iron" : []
     }
     for items in weather_data['weather']:
-        wind_temp['weather_desc'] = items['icon']
+        wind_temp['weather_desc'] = items['description']
+        wind_temp['weather_icon'] = items['icon']
     wind_temp_data.append(wind_temp)
 
     print(wind_temp_data)
@@ -97,10 +101,12 @@ def spokane():
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility'],
-        "weather_desc": []
+        "weather_desc": [],
+        "weather_iron" : []
     }
     for items in weather_data['weather']:
-        wind_temp['weather_desc'] = items['icon']
+        wind_temp['weather_desc'] = items['description']
+        wind_temp['weather_icon'] = items['icon']
     wind_temp_data.append(wind_temp)
 
     print(wind_temp_data)
@@ -136,10 +142,12 @@ def pullman():
         "pressure": weather_data['main']['pressure'],
         "humidity": weather_data['main']['humidity'],
         "visibility": weather_data['visibility'],
-        "weather_desc": []
+        "weather_desc": [],
+        "weather_iron" : []
     }
     for items in weather_data['weather']:
-        wind_temp['weather_desc'] = items['icon']
+        wind_temp['weather_desc'] = items['description']
+        wind_temp['weather_icon'] = items['icon']
     wind_temp_data.append(wind_temp)
 
     print(wind_temp_data)
