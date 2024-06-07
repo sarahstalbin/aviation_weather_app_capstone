@@ -134,6 +134,9 @@ def register():
     form = RegisterForm()
     user_exists = False
     if form.validate_on_submit():
+        if form.password.data != form.confirm_password.data:
+            flash('New passwords do not match', 'danger')
+            return redirect(url_for('register'))
         if UserModel.query.filter_by(email=form.email.data).first():
             flash('Email address already registered', 'danger')
             return redirect(url_for('register'))
@@ -208,6 +211,9 @@ def update_email():
 def change_password():
     form = ChangePasswordForm()
     if form.validate_on_submit():
+        if form.new_password.data != form.confirm_new_password.data:
+            flash('New passwords do not match', 'danger')
+            return redirect(url_for('change_password'))
         if not current_user.check_password(form.old_password.data):
             flash('Old password is incorrect.', 'danger')
         else:
@@ -216,7 +222,6 @@ def change_password():
             flash('Your password has been updated.', 'success')
             return redirect(url_for('account'))
     return render_template('change_password.html', form=form)
-
 
 # Run the application if this script is being run directly
 if __name__ == '__main__':
