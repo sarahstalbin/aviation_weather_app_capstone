@@ -66,6 +66,13 @@
 		      <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
 		    </div>
 		  </form>
+
+                  <div id="flash-messages">
+                    {% for message in get_flashed_messages() %}
+                      <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                  </div>
+
 		</div>
                 
               </div>
